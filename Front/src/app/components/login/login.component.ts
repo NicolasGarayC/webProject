@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormsModule } from '@angular/forms';
-import { HttpClient } from '@angular/common/http';
+import { LoginService } from '../../service/login.service';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -30,7 +30,11 @@ export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   hide = true;
 
-  constructor(private fb: FormBuilder, private http: HttpClient, private snackBar: MatSnackBar) {
+  constructor(
+    private fb: FormBuilder,
+    private loginService: LoginService,
+    private snackBar: MatSnackBar
+  ) {
     this.loginForm = this.fb.group({
       correo: ['', [Validators.required, Validators.email]],
       passwd: ['', Validators.required]
@@ -41,7 +45,7 @@ export class LoginComponent implements OnInit {
 
   onSubmit(): void {
     if (this.loginForm.valid) {
-      this.http.post('http://localhost:3300/api/usuarios/authUsuario', this.loginForm.value, { responseType: 'text' })
+      this.loginService.login(this.loginForm.value.correo, this.loginForm.value.passwd)
         .pipe(
           catchError(err => {
             this.snackBar.open('Error en la autenticación', 'Cerrar', {
