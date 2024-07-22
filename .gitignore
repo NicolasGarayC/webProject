@@ -1,0 +1,43 @@
+HELP.md
+Back/target/
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+### IntelliJ IDEA ###
+Back/.idea
+*.iws
+*.iml
+*.ipr
+
+### NetBeans ###
+Back/nbproject/private/
+Back/nbbuild/
+Back/dist/
+Back/nbdist/
+Back/.nb-gradle/
+Back/build/
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+### VS Code ###
+.vscode/
+Back/src/main/resources/application.properties
+Back/target/classes/application.properties
+Back/src/main/resources/
+Back/target/classes/
+Back/target/
+Back/errors.txt
+Back/mvnw.cmd
+Back/mvnw
+Front/package-lock.json
+Front/.angular
+Front/.angular/
+Front/node_modules/
+Front/node_modules
