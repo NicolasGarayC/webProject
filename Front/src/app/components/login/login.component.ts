@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormsModule } from '@angular/forms';
-import { LoginService } from '../../service/login.service';
+import { LoginService } from '../../services/login.service';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -9,6 +9,7 @@ import { catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { NavbarVisibilityService } from '../../services/navbar-visibility.service';
 
 @Component({
   selector: 'app-login',
@@ -26,11 +27,12 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit, OnDestroy {
   loginForm: FormGroup;
   hide = true;
 
   constructor(
+    private navbarVisibilityService: NavbarVisibilityService,
     private fb: FormBuilder,
     private loginService: LoginService,
     private snackBar: MatSnackBar
@@ -41,8 +43,14 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void { }
+  ngOnInit(): void {
+    this.navbarVisibilityService.hide();
+   }
 
+   ngOnDestroy() {
+    this.navbarVisibilityService.show();
+  }
+  
   onSubmit(): void {
     if (this.loginForm.valid) {
       this.loginService.login(this.loginForm.value.correo, this.loginForm.value.passwd)

@@ -8,6 +8,7 @@
         </mat-error>
       </mat-form-field>
       <mat-form-field appearance="fill">
+
         <input matInput [type]="hide ? 'password' : 'text'" placeholder="Password" formControlName="passwd" required>
         <button mat-icon-button matSuffix (click)="hide = !hide" type="button">
           <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-center my-4">Registro</h1>
+        <div class="row justify-content-center">
+            <div class="col-md-4">
+
+                <!-- Validación de la placa -->
+                <div class="form-group">
+                    <input type="text" class="form-control" id="placa" placeholder="Ingrese la placa" required>
+                    <button type="button" class="btn btn-primary btn-block" id="validar-btn">Validar</button>
+                    <div class="mt-3" id="resultado"></div>
+                </div>
+
+                <!-- Formulario de registro -->
+                <form id="registro-form">
+                    <!-- Campo de nombre -->
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="nombre" placeholder="Nombre completo" required pattern="[A-Za-z\s]+" title="El nombre solo debe contener letras y espacios">
+                    </div>
+                    
+                    <!-- Campo de correo electrónico -->
+                    <div class="form-group">
+                        <input type="email" class="form-control" id="email" placeholder="Correo electrónico" required>
+                    </div>
+
+                    <!-- Campo de usuario -->
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="usuario" placeholder="Usuario" required pattern="^[A-Za-z0-9_]{5,15}$" title="El usuario debe contener entre 5 y 15 caracteres alfanuméricos o guiones bajos">
+                    </div>
+
+                    <!-- Campo de contraseña -->
+                    <div class="form-group">
+                        <input type="password" class="form-control" id="password" placeholder="Contraseña" required pattern=".{6,}" title="La contraseña debe tener al menos 6 caracteres">
+                    </div>
+
+                    <!-- Campo de confirmación de contraseña -->
+                    <div class="form-group">
+                        <input type="password" class="form-control" id="confirm-password" placeholder="Confirmar contraseña" required>
+                        <div class="invalid-feedback" id="password-feedback">Las contraseñas no coinciden.</div>
+                    </div>
+
+                    <!-- Botón de registro -->
+                    <button type="submit" class="btn btn-primary btn-block">Registrarse</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script>
+        // Validación de la placa
+        document.getElementById('validar-btn').addEventListener('click', function() {
+            var input = document.getElementById('placa');
+            var resultado = document.getElementById('resultado');
+            var pattern = /^[A-Za-z]{3}[0-9]{3}$/;
+
+            if (pattern.test(input.value)) {
+                resultado.textContent = 'Placa válida';
+                resultado.className = 'alert alert-success';
+            } else {
+                resultado.textContent = 'Placa inválida';
+                resultado.className = 'alert alert-danger';
+            }
+        });
+
+        // Validación del formulario de registro
+        document.getElementById('registro-form').addEventListener('submit', function(event) {
+            var password = document.getElementById('password');
+            var confirmPassword = document.getElementById('confirm-password');
+            var passwordFeedback = document.getElementById('password-feedback');
+
+            if (password.value !== confirmPassword.value) {
+                confirmPassword.classList.add('is-invalid');
+                passwordFeedback.style.display = 'block';
+                event.preventDefault(); // Prevenir envío del formulario
+            } else {
+                confirmPassword.classList.remove('is-invalid');
+                passwordFeedback.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>

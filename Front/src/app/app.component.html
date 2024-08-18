@@ -1,2 +1,4 @@
-<main class="main"></main>
-<router-outlet />
+<ng-container *ngIf="(isNavbarVisible | async)">
+    <app-navbar></app-navbar>
+</ng-container>
+<router-outlet></router-outlet>
