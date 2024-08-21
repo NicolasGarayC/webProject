@@ -1,28 +1,42 @@
-import { Component } from '@angular/core';
-import { NavbarVisibilityService } from './services/navbar-visibility.service';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
-import { NavbarComponent } from './components/navbar/navbar.component';
+import { RouterModule, Router, NavigationEnd } from '@angular/router';
+import { MatIconModule } from '@angular/material/icon';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatMenuModule } from '@angular/material/menu';
+import { Observable } from 'rxjs';
+import { filter, map } from 'rxjs/operators';
+import {LoginService} from '../../src/app/services/login/login.service'
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, RouterModule, NavbarComponent],
+  imports: [
+    CommonModule,
+    RouterModule,
+    MatIconModule,
+    MatToolbarModule,
+    MatMenuModule,
+  ],
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.css'],
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
+  isNavbarVisible: Observable<boolean>;
 
-  columnDefs = [
-    { field: 'country', rowGroup: true, hide: true },
-    { field: 'year', rowGroup: true, hide: true },
-    { field: 'sport' },
-    { field: 'total' }
-];
-  isNavbarVisible:any;
+  constructor(private router: Router, private service: LoginService) {
+    // Se basa en la ruta actual para determinar si se debe mostrar la barra de herramientas
+    this.isNavbarVisible = this.router.events.pipe(
+      filter(event => event instanceof NavigationEnd),
+      map((event: NavigationEnd) => event.urlAfterRedirects !== '/login')
+    );
+  }
 
-  constructor(private navbarVisibilityService: NavbarVisibilityService) {
-   this.isNavbarVisible = this.navbarVisibilityService.visibility$;
+  ngOnInit() {}
 
+  logout(){
+    console.log("saliendo");
+    
+    this.service.logout()
   }
 }

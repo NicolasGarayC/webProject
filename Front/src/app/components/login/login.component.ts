@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormsModule } from '@angular/forms';
-import { LoginService } from '../../services/login.service';
+import { LoginService } from '../../services/login/login.service';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -9,7 +9,8 @@ import { catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
-import { NavbarVisibilityService } from '../../services/navbar-visibility.service';
+import { Router } from '@angular/router';
+import { MatSidenavModule } from '@angular/material/sidenav';
 
 @Component({
   selector: 'app-login',
@@ -22,33 +23,26 @@ import { NavbarVisibilityService } from '../../services/navbar-visibility.servic
     MatIconModule,
     MatFormFieldModule,
     MatSnackBarModule,
-    CommonModule
+    CommonModule,
+    MatSidenavModule
   ],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent implements OnInit, OnDestroy {
+export class LoginComponent {
   loginForm: FormGroup;
   hide = true;
 
   constructor(
-    private navbarVisibilityService: NavbarVisibilityService,
     private fb: FormBuilder,
     private loginService: LoginService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private router: Router  
   ) {
     this.loginForm = this.fb.group({
       correo: ['', [Validators.required, Validators.email]],
       passwd: ['', Validators.required]
     });
-  }
-
-  ngOnInit(): void {
-    this.navbarVisibilityService.hide();
-   }
-
-   ngOnDestroy() {
-    this.navbarVisibilityService.show();
   }
   
   onSubmit(): void {
@@ -65,7 +59,12 @@ export class LoginComponent implements OnInit, OnDestroy {
           })
         )
         .subscribe(response => {
+          console.log("res", response);
+          
           if (response && response.startsWith('Usuario Autenticado')) {
+            const token = response.split('token:')[1].trim();
+            localStorage.setItem('authToken', token); // Guardar el token en localStorage
+            this.router.navigate(['/reports']);
             this.snackBar.open('Usuario autenticado correctamente', 'Cerrar', {
               duration: 3000,
               panelClass: ['snackbar-success']
@@ -79,5 +78,5 @@ export class LoginComponent implements OnInit, OnDestroy {
           console.log('Respuesta del servidor:', response);
         });
     }
-  }
+  }  
 }

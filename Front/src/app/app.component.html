@@ -1,4 +1,44 @@
-<ng-container *ngIf="(isNavbarVisible | async)">
-    <app-navbar></app-navbar>
+<ng-container *ngIf="isNavbarVisible | async">
+  <mat-toolbar color="primary">
+    <mat-button class="menu-button" mat-icon-button [matMenuTriggerFor]="menu">
+      <mat-icon>menu</mat-icon>
+    </mat-button>
+    <span class="title">InvenTrack</span>
+  </mat-toolbar>
+
+  <mat-menu #menu="matMenu">
+    <mat-button mat-menu-item routerLink="/reports">
+      <mat-icon>assessment</mat-icon>
+      <span>Reports</span>
+    </mat-button>
+    <mat-button mat-menu-item [matMenuTriggerFor]="subMenu">
+      <mat-icon>dashboard</mat-icon>
+      <span>Manage Inventory</span>
+    </mat-button>    
+    <mat-menu #subMenu="matMenu">
+      <mat-button mat-menu-item routerLink="/articles">
+        <span>Manage Products</span>
+      </mat-button>
+      <mat-button mat-menu-item routerLink="/manage-providers">
+        <span>Manage Providers</span>
+      </mat-button>
+      <mat-button mat-menu-item routerLink="/manage-sales">
+        <span>Manage Sales</span>
+      </mat-button>
+    </mat-menu>
+    <!-- Fin del submenú -->
+
+    <mat-button mat-menu-item routerLink="/settings">
+      <mat-icon>settings</mat-icon>
+      <span>Settings</span>
+    </mat-button>
+    <mat-button mat-menu-item (click)="logout()">
+      <mat-icon>logout</mat-icon>
+      <span>Logout</span>
+    </mat-button>
+  </mat-menu>
 </ng-container>
-<router-outlet></router-outlet>
+
+<div>
+  <router-outlet></router-outlet>
+</div>
