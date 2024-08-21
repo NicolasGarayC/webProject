@@ -34,17 +34,15 @@ export class ArticlesComponent implements OnInit {
 
   deleteArticulo(id: number): void {
     this.articlesService.deleteArticulo(id).subscribe(() => {
-      this.loadArticulos(); // Recargar la lista después de eliminar
+      this.loadArticulos();
     });
   }
 
   editArticulo(articulo: Articulo): void {
-    // Implementar lógica para editar artículo
     console.log('Edit articulo', articulo);
   }
 
   addArticulo(): void {
-    // Implementar lógica para añadir un nuevo artículo
     console.log('Add new articulo');
   }
 }

@@ -35,8 +35,6 @@ export class AppComponent implements OnInit {
   ngOnInit() {}
 
   logout(){
-    console.log("saliendo");
-    
     this.service.logout()
   }
 }
