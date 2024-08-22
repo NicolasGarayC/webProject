@@ -7,7 +7,7 @@ import { Articulo } from '../../models/articulo.interface'
   providedIn: 'root'
 })
 export class ArticuloService {
-  private apiUrl = `${environment.apiUrl}/getArticulos`;
+  private apiUrl = `${environment.apiUrl}/articulos/getArticulos`;
 
   constructor(private http: HttpClient) { }
 

@@ -2,11 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { ArticuloService } from '../../services/articles/articles.service';
 import { Articulo } from '../../models/articulo.interface'
 import {MatTableModule} from '@angular/material/table';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 @Component({
   selector: 'app-articles',
   templateUrl: './articles.component.html',
   standalone:true,
-  imports:[ MatTableModule ],
+  imports:[ MatTableModule, MatButtonModule, MatIconModule],
   styleUrls: ['./articles.component.css']
 })
 

@@ -1,4 +1,5 @@
 package com.project.security;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -8,7 +9,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
-
+import org.springframework.http.HttpMethod;
 
 @Configuration
 @EnableWebSecurity
@@ -22,24 +23,22 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception
     {
         return http
-                .csrf(csrf ->
-                        csrf
-                                .disable())
-                .authorizeHttpRequests(authRequest ->
-                        authRequest
-                                .requestMatchers("/api/usuarios/**").permitAll()
-                                .requestMatchers("/api/auditor/**").hasRole("AUDITOR")
-                                .requestMatchers("/api/**").hasAnyRole("ADMIN", "OPERATIVO")
-                                .anyRequest().authenticated()
+                .csrf(csrf -> csrf.disable())
+                .authorizeHttpRequests(authRequest -> authRequest
+                        // Permitir todas las solicitudes OPTIONS sin autenticación
+                        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                        // Permitir acceso sin autenticación a las rutas de usuarios
+                        .requestMatchers("/api/usuarios/**").permitAll()
+                        // Rutas protegidas por roles específicos
+                        .requestMatchers("/api/auditor/**").hasRole("AUDITOR")
+                        .requestMatchers("/api/**").hasAnyRole("ADMIN", "OPERATIVO")
+                        .anyRequest().authenticated()
                 )
-                .sessionManagement(sessionManager->
-                        sessionManager
-                                .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .sessionManagement(sessionManager -> sessionManager
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authProvider)
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
-
-
     }
 
 }
