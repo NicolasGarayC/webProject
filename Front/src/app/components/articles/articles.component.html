@@ -1,6 +1,6 @@
-<div class="articulos-container">
-    <h2>Artículos</h2>
-    <button mat-raised-button color="primary" (click)="addArticulo()">Añadir Nuevo Artículo</button>
+<mat-spinner *ngIf="isLoading"></mat-spinner>
+<div *ngIf="!isLoading" class="articulos-container">
+    <h2>Administrar Artículos</h2>
     <table mat-table [dataSource]="articulos" class="mat-elevation-z8">
   
       <!-- Nombre del Articulo Column -->
@@ -62,5 +62,8 @@
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
+    <button mat-fab color="primary" class="fab-button" (click)="addArticulo()">
+      <mat-icon>add</mat-icon>
+    </button>
   </div>
   

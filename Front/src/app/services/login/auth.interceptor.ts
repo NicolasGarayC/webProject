@@ -5,9 +5,8 @@ import { Observable } from 'rxjs';
 export const authInterceptor: HttpInterceptorFn = (req: HttpRequest<any>, next: HttpHandlerFn): Observable<HttpEvent<any>> => {
   const token = localStorage.getItem('authToken');
   
-  // Verificar si la solicitud es a la ruta authUsuario
   if (req.url.includes('/usuarios/authUsuario')) {
-    return next(req); // No adjuntar el token
+    return next(req);
   }
 
   if (token) {

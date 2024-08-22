@@ -24,7 +24,7 @@ public class Venta {
     private Date fechaVenta;
 
     public Venta() {
-        this.fechaVenta = new Date(); // Establecer la fecha actual por defecto
+        this.fechaVenta = new Date();
     }
 
     public Venta(int id, double valorTotal, Date fechaVenta) {

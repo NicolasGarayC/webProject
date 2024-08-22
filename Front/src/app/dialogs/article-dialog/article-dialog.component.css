@@ -1,0 +1,23 @@
+.dialog-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #1976d2; /* Azul Material */
+  color: white;
+  padding: 8px 16px;
+}
+
+.dialog-title {
+  flex-grow: 1;
+  text-align: center;
+  font-weight: bold;
+  font-size: 20px;
+}
+
+.full-width-form {
+  width: 100%;
+}
+
+.full-width {
+  width: 100%;
+}

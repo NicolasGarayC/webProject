@@ -1,0 +1,67 @@
+<div class="dialog-header">
+    <button mat-icon-button (click)="onCancel()">
+        <mat-icon>arrow_back</mat-icon>
+    </button>
+    <span class="dialog-title">{{data.isEdit ? 'Actualizar Artículo' : 'Registrar Nuevo Artículo'}}</span>
+    <button mat-button [disabled]="!articuloForm.valid" (click)="onSave()">
+        <mat-icon>save</mat-icon>
+    </button>
+</div>
+
+<div mat-dialog-content>
+    <form [formGroup]="articuloForm" class="full-width-form">
+
+        <mat-form-field class="full-width" appearance="fill" *ngIf="!data.id">
+            <mat-label>Proveedor</mat-label>
+            <mat-select formControlName="proveedorId">
+                <mat-option *ngFor="let proveedor of proveedores$ | async" [value]="proveedor.id">
+                    {{ proveedor.nombre }}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <mat-form-field class="full-width" appearance="fill" *ngIf="!data.id">
+            <mat-label>Categoría</mat-label>
+            <mat-select formControlName="categoriaId">
+              <mat-option *ngFor="let categoria of categorias$ | async" [value]="categoria.id">
+                {{ categoria.nombreCategorias }}
+              </mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <mat-form-field class="full-width" appearance="fill">
+            <mat-label>Nombre</mat-label>
+            <input matInput formControlName="nombrearticulo">
+        </mat-form-field>
+
+        <mat-form-field class="full-width" appearance="fill">
+            <mat-label>Marca</mat-label>
+            <input matInput formControlName="marca">
+        </mat-form-field>
+
+        <mat-form-field class="full-width" appearance="fill">
+            <mat-label>Modelo</mat-label>
+            <input matInput formControlName="modelo">
+        </mat-form-field>
+
+        <mat-form-field class="full-width" appearance="fill">
+            <mat-label>Color</mat-label>
+            <input matInput formControlName="color">
+        </mat-form-field>
+
+        <mat-form-field class="full-width" appearance="fill">
+            <mat-label>Unidad de Medida</mat-label>
+            <input matInput formControlName="unidaddemedida">
+        </mat-form-field>
+
+        <mat-form-field class="full-width" appearance="fill">
+            <mat-label>Unidades Disponibles</mat-label>
+            <input matInput type="number" formControlName="unidadesdisponibles">
+        </mat-form-field>
+
+        <mat-form-field class="full-width" appearance="fill">
+            <mat-label>Valor Unitario</mat-label>
+            <input matInput type="number" formControlName="valorunitario">
+        </mat-form-field>
+    </form>
+</div>

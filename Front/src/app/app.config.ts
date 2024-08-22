@@ -8,13 +8,13 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
-import { authInterceptor } from './services/login/auth.interceptor'; // Asegúrate de importar correctamente
+import { authInterceptor } from './services/login/auth.interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes),
     provideHttpClient(
-      withInterceptors([authInterceptor]) // Usar la función como interceptor
+      withInterceptors([authInterceptor])
     ),
     importProvidersFrom(
       BrowserAnimationsModule,

@@ -41,7 +41,6 @@ public class GlobalExceptionHandler {
     public ResponseEntity<Object> handleHttpMessageNotReadableException(HttpMessageNotReadableException ex) {
         String errorMessage = "Error en el formato del JSON: " + ex.getMessage();
 
-        // Registrar el error en el archivo
         errorLoggingService.logError("Error de formato en GlobalExceptionHandler", ex, errorMessage);
 
         return new ResponseEntity<>(errorMessage, HttpStatus.BAD_REQUEST);

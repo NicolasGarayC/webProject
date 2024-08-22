@@ -1,5 +1,6 @@
 package com.project.controller;
 import com.project.model.Articulo;
+import com.project.model.ArticuloUpdateDTO;
 import com.project.model.ArticuloUpdateValorDTO;
 import com.project.model.Proveedor;
 import com.project.repository.ArticuloRepository;
@@ -32,9 +33,29 @@ public class ArticuloController {
             return ResponseEntity.badRequest().body("Error: ID de artículo no encontrado.");
         }
     }
+
     @GetMapping("/getArticulos")
     public List<Articulo> getAll() {
         return articuloService.getAllArticulos();
     }
 
+    @PutMapping("/actualizarArticulo")
+    public ResponseEntity<Articulo> actualizarArticulo(@Valid @RequestBody ArticuloUpdateDTO articuloUpdateDTO) {
+        try {
+            Articulo articuloActualizado = articuloService.actualizarArticulo(articuloUpdateDTO);
+            return ResponseEntity.ok(articuloActualizado);
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(null);
+        }
+    }
+
+    @DeleteMapping("/eliminarArticulo/{id}")
+    public ResponseEntity<String> eliminarArticulo(@PathVariable int id) {
+        try {
+            articuloService.eliminarArticuloPorId(id);
+            return ResponseEntity.ok("Artículo eliminado exitosamente.");
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
 }

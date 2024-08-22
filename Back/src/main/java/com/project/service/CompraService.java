@@ -121,7 +121,7 @@ public class CompraService {
         long diferenciaEnMiliseg = fechaActual.getTime() - compra.getFechacompra().getTime();
         long diasDiferencia = TimeUnit.MILLISECONDS.toDays(diferenciaEnMiliseg);
 
-        if (diasDiferencia > (30 * 3)) { // Asumiendo aproximadamente 30 días por mes
+        if (diasDiferencia > (30 * 3)) {
             throw new RuntimeException("No se puede realizar la devolución, han pasado más de tres meses desde la compra.");
         }
         if(detalles.isEmpty()){

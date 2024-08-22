@@ -1,8 +1,15 @@
 .articulos-container {
-    padding: 20px;
-  }
-  
-  table {
-    width: 100%;
-  }
-  
+  position: relative;
+  padding: 20px;
+}
+
+table {
+  width: 100%;
+}
+
+.fab-button {
+  position: fixed;
+  bottom: 16px;
+  right: 16px;
+  z-index: 1000;
+}

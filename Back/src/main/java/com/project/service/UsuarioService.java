@@ -109,7 +109,6 @@ public class UsuarioService implements UserDetails{
                 }
                 return a;
             } catch (AuthenticationException e) {
-                // Maneja los intentos fallidos después de un intento fallido de autenticación
                 usuario.setIntentosFallidos(usuario.getIntentosFallidos() + 1);
                 usuarioRepository.save(usuario);
                 if (usuario.getIntentosFallidos() >= 3) {

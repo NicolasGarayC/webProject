@@ -16,7 +16,6 @@ public class ArticuloCategoria {
 
     private Integer idcategoria;
 
-    // Constructor vacío (necesario para JPA)
     public ArticuloCategoria() {}
 
     public Integer getId() {
@@ -27,16 +26,12 @@ public class ArticuloCategoria {
         this.id = id;
     }
 
-    // Constructor con parámetros
-
-
     public ArticuloCategoria(Integer id, Integer idarticulo, Integer idcategoria) {
         this.id = id;
         this.idarticulo = idarticulo;
         this.idcategoria = idcategoria;
     }
 
-    // Getters y setters
     public Integer getIdarticulo() {
         return idarticulo;
     }

@@ -16,7 +16,6 @@ public class ArticuloUpdateValorDTO {
         this.valorunitario = valorunitario;
     }
 
-    // Getters y Setters
     public Integer getId() {
         return id;
     }

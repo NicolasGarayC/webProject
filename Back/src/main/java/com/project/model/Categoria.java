@@ -16,10 +16,8 @@ public class Categoria {
     @Column(name = "nombrecategoria", length = 45)
     private String nombreCategorias;
 
-    // Constructor
     public Categoria() {
     }
-
 
     public Categoria(String nombreCategorias) {
            this.nombreCategorias = nombreCategorias;

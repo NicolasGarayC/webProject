@@ -63,7 +63,7 @@ export class LoginComponent {
           
           if (response && response.startsWith('Usuario Autenticado')) {
             const token = response.split('token:')[1].trim();
-            localStorage.setItem('authToken', token); // Guardar el token en localStorage
+            localStorage.setItem('authToken', token);
             this.router.navigate(['/reports']);
             this.snackBar.open('Usuario autenticado correctamente', 'Cerrar', {
               duration: 3000,

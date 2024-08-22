@@ -1,9 +1,6 @@
 package com.project.service;
 
-import com.project.model.Articulo;
-import com.project.model.ArticulosCompraDTO;
-import com.project.model.Compra;
-import com.project.model.CompraArticulosDTO;
+import com.project.model.*;
 import com.project.repository.ArticuloRepository;
 import com.project.repository.CompraRepository;
 import jakarta.transaction.Transactional;
@@ -20,10 +17,33 @@ public class ArticuloService {
     @Autowired
     private CompraRepository compraRepository;
 
+    public Articulo actualizarArticulo(ArticuloUpdateDTO articuloUpdateDTO) {
+        Optional<Articulo> articuloOptional = articuloRepository.findById(articuloUpdateDTO.getId());
 
+        if (articuloOptional.isPresent()) {
+            Articulo articulo = articuloOptional.get();
+            articulo.setNombrearticulo(articuloUpdateDTO.getNombrearticulo());
+            articulo.setMarca(articuloUpdateDTO.getMarca());
+            articulo.setModelo(articuloUpdateDTO.getModelo());
+            articulo.setColor(articuloUpdateDTO.getColor());
+            articulo.setUnidaddemedida(articuloUpdateDTO.getUnidaddemedida());
+            articulo.setUnidadesdisponibles(articuloUpdateDTO.getUnidadesdisponibles());
+            articulo.setValorunitario(articuloUpdateDTO.getValorunitario());
+            articuloRepository.save(articulo);
+            return articulo;
+        } else {
+            throw new RuntimeException("No se encontró el artículo con ID " + articuloUpdateDTO.getId());
+        }
+    }
+    public void eliminarArticuloPorId(int id) {
+        if (articuloRepository.existsById(id)) {
+            articuloRepository.deleteById(id);
+        } else {
+            throw new RuntimeException("No se encontró el artículo con ID " + id);
+        }
+    }
     public Integer guardarArticulo(ArticulosCompraDTO compraDTO) {
             Articulo articulo = compraDTO.getArticulo();
-        // Intenta encontrar un artículo existente con los mismos atributos.
         Optional<Articulo> articuloExistente = articuloRepository.findByNombrearticuloIgnoreCaseAndMarcaIgnoreCaseAndModeloIgnoreCaseAndColorIgnoreCase(
                 articulo.getNombrearticulo(),
                 articulo.getMarca(),
@@ -32,7 +52,6 @@ public class ArticuloService {
         );
 
         if (articuloExistente.isPresent()) {
-            // Si existe, actualiza el número de unidades disponibles y guarda el artículo existente.
             Articulo existente = articuloExistente.get();
             int totalUnidades = existente.getUnidadesdisponibles() + compraDTO.getUnidadesCompradas();
 
@@ -45,7 +64,6 @@ public class ArticuloService {
             articuloRepository.save(existente);
             return existente.getId();
         } else {
-            // Si no existe, guarda el nuevo artículo y devuelve su ID.
             double nuevoValor = compraDTO.getValorUnidad() + (compraDTO.getValorUnidad() * 0.25);
             articulo.setValorunitario(nuevoValor);
             articulo.setUnidadesdisponibles(compraDTO.getUnidadesCompradas());
