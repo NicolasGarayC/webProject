@@ -1,12 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { ArticuloService } from '../../services/articles/articles.service';
-import { Articulo } from '../../models/articulo.interface'
-import { MatTableModule } from '@angular/material/table';
+import { Articulo } from '../../models/articulo.interface';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { CommonModule } from '@angular/common';
 import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { ArticleDialogComponent } from '../../dialogs/article-dialog/article-dialog.component';
 import { ConfirmDialogComponent } from '../../dialogs/confirmation-dialog/confirmation-dialog.component';
 
@@ -14,34 +15,52 @@ import { ConfirmDialogComponent } from '../../dialogs/confirmation-dialog/confir
   selector: 'app-articles',
   templateUrl: './articles.component.html',
   standalone: true,
-  imports: [MatTableModule, MatButtonModule, MatIconModule, MatProgressSpinnerModule,CommonModule],
+  imports: [
+    MatTableModule,
+    MatButtonModule,
+    MatIconModule,
+    MatProgressSpinnerModule,
+    CommonModule,
+    MatSnackBarModule // Importar MatSnackBarModule aquí
+  ],
   styleUrls: ['./articles.component.css']
 })
-
 export class ArticlesComponent implements OnInit {
-  articulos: Articulo[] = [];
-  displayedColumns: string[] = ['nombrearticulo', 'marca', 'modelo', 'color', 'unidaddemedida', 'unidadesdisponibles', 'valorunitario', 'acciones'];
-  isLoading: boolean = false
-  constructor(private articlesService: ArticuloService,public dialog: MatDialog) { }
+  articulos: MatTableDataSource<Articulo> = new MatTableDataSource<Articulo>();
+  displayedColumns: string[] = [
+    'nombrearticulo',
+    'marca',
+    'modelo',
+    'color',
+    'unidaddemedida',
+    'unidadesdisponibles',
+    'valorunitario',
+    'acciones'
+  ];
+  isLoading: boolean = false;
+
+  constructor(
+    private articlesService: ArticuloService,
+    public dialog: MatDialog,
+    private snackBar: MatSnackBar // Añadir MatSnackBar aquí
+  ) { }
 
   ngOnInit(): void {
     this.loadArticulos();
   }
 
   loadArticulos(): void {
-    this.isLoading = true
-    this.articlesService.getArticulos().subscribe(
-      {
-        next: (data) => {
-          this.articulos = data;
-          this.isLoading = false
-        },
-        error: (error) => {
-          this.isLoading = false
-          console.error('Error fetching articulos', error);
-        }
+    this.isLoading = true;
+    this.articlesService.getArticulos().subscribe({
+      next: (data) => {
+        this.articulos.data = data;
+        this.isLoading = false;
+      },
+      error: (error) => {
+        this.isLoading = false;
+        console.error('Error fetching articulos', error);
       }
-    );
+    });
   }
 
   deleteArticulo(id: number): void {
@@ -51,8 +70,14 @@ export class ArticlesComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.articlesService.deleteArticulo(id).subscribe(() => {
-          this.loadArticulos();
+        this.articlesService.deleteArticulo(id).subscribe({
+          next: () => {
+            this.loadArticulos(); // Recarga los artículos después de eliminar
+          },
+          error: (error) => {
+            this.loadArticulos(); // Recarga los artículos después de añadir
+            console.error('Error al eliminar el artículo', error);
+          }
         });
       }
     });
@@ -64,10 +89,16 @@ export class ArticlesComponent implements OnInit {
       data: { ...articulo, isEdit: true }
     });
 
-    dialogRef.afterClosed().subscribe((result:any) => {
+    dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.articlesService.updateArticulo(result).subscribe(() => {
-          this.loadArticulos();
+        this.articlesService.updateArticulo(result).subscribe({
+          next: () => {
+            this.loadArticulos(); // Recarga los artículos después de editar
+          },
+          error: (error) => {
+            this.loadArticulos(); // Recarga los artículos después de añadir
+            console.error('Error al actualizar el artículo', error);
+          }
         });
       }
     });
@@ -88,10 +119,17 @@ export class ArticlesComponent implements OnInit {
       }
     });
 
-    dialogRef.afterClosed().subscribe((result:any) => {
+    dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.articlesService.addArticulo(result).subscribe(() => {
-          this.loadArticulos();
+        this.articlesService.addArticulo(result).subscribe({
+          next: (res) => {
+            console.log(res);
+            this.loadArticulos(); // Recarga los artículos después de añadir
+          },
+          error: (error) => {
+            this.loadArticulos(); // Recarga los artículos después de añadir
+            console.error('Error al añadir el artículo', error);
+          }
         });
       }
     });

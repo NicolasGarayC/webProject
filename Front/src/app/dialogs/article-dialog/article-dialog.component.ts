@@ -106,9 +106,16 @@ export class ArticleDialogComponent implements OnInit {
           idUsuario: 1
         };
 
-        this.articuloService.registrarCompra(nuevaCompra).subscribe(response => {
-          this.dialogRef.close(response);
-          
+        this.articuloService.registrarCompra(nuevaCompra).subscribe({
+          next:(response)=>{
+            console.log("entre");
+            
+            this.dialogRef.close(response);
+          },          
+          error:(error)=>{
+            console.log("Error",error);
+            
+          }
         });
       }
     }

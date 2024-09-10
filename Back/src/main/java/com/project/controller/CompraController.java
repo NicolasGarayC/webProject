@@ -15,6 +15,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @RestController
 @RequestMapping("/api/compras")
 public class CompraController {
@@ -25,15 +28,21 @@ public class CompraController {
     private CompraService compraService;
 
     @PostMapping("/registrarCompra")
-    public ResponseEntity<String> agregarCompra(@Valid @RequestBody CompraArticulosDTO compraArticulosDTO) {
+    public ResponseEntity<Map<String, String>> agregarCompra(@Valid @RequestBody CompraArticulosDTO compraArticulosDTO) {
         try {
             compraService.guardarCompraYRelaciones(compraArticulosDTO);
-            return new ResponseEntity<>("Compra y artículo agregados exitosamente", HttpStatus.OK);
+            Map<String, String> response = new HashMap<>();
+            response.put("message", "Compra y artículo agregados exitosamente");
+            return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (RuntimeException e) {
             errorLoggingService.logError("Error en CompraController - registrarCompra", e, compraArticulosDTO.toString());
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+            Map<String, String> errorResponse = new HashMap<>();
+            errorResponse.put("message", e.getMessage());
+            return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+
     @PostMapping("/devolucionCompra")
     public ResponseEntity<String> actualizarDevolucion(@Valid @RequestBody DevoUpdateDTO devoUpdateDTO) {
         try {
