@@ -1,9 +1,6 @@
 package com.project.service;
 
-import com.project.model.AuthResponse;
-import com.project.model.LoginRequest;
-import com.project.model.Usuario;
-import com.project.model.UsuarioDAO;
+import com.project.model.*;
 import com.project.service.*;
 import com.project.repository.UsuarioRepository;
 import com.project.security.JwtService;
@@ -58,7 +55,9 @@ public class UsuarioService implements UserDetails{
             return null;
         }
     }
-
+    public List<Usuario> getAllUsers() {
+        return usuarioRepository.findAll();
+    }
 
     public UsuarioDAO convertToUsuarioDAO(Usuario usuario) {
         UsuarioDAO usuarioDAO = new UsuarioDAO();

@@ -9,12 +9,11 @@ import { Router } from '@angular/router';
   providedIn: 'root'
 })
 export class LoginService {
-  private apiUrl = environment.apiUrl;
 
   constructor(private http: HttpClient,private router: Router) { }
 
   login(correo: string, passwd: string): Observable<any> {
-    const url = `${this.apiUrl}/usuarios/authUsuario`;
+    const url = `${environment.apiUrl}/usuarios/authUsuario`;
     return this.http.post<any>(url, { correo, passwd }, { responseType: 'text' as 'json' });
   }
   logout(): void {

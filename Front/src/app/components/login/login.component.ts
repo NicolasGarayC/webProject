@@ -59,8 +59,6 @@ export class LoginComponent {
           })
         )
         .subscribe(response => {
-          console.log("res", response);
-          
           if (response && response.startsWith('Usuario Autenticado')) {
             const token = response.split('token:')[1].trim();
             localStorage.setItem('authToken', token);

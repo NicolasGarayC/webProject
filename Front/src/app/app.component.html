@@ -1,5 +1,5 @@
 <ng-container *ngIf="isNavbarVisible | async">
-  <mat-toolbar color="primary">
+  <mat-toolbar class="navmenu">
     <mat-button class="menu-button" mat-icon-button [matMenuTriggerFor]="menu">
       <mat-icon>menu</mat-icon>
     </mat-button>
@@ -26,8 +26,10 @@
         <span>Manage Sales</span>
       </mat-button>
     </mat-menu>
-    <!-- Fin del submenú -->
-
+    <mat-button mat-menu-item routerLink="/usuarios">
+      <mat-icon>person_add</mat-icon>
+      <span>Gestionar Usuarios</span>
+    </mat-button>
     <mat-button mat-menu-item routerLink="/settings">
       <mat-icon>settings</mat-icon>
       <span>Settings</span>

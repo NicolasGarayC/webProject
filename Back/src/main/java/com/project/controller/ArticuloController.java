@@ -7,10 +7,13 @@ import com.project.repository.ArticuloRepository;
 import com.project.service.ArticuloService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -21,18 +24,26 @@ public class ArticuloController {
     private ArticuloService articuloService;
 
     @PostMapping("/registrarArticulo")
-    public String agregarArticulo(@Valid @RequestBody Articulo articulo) {
-        return "Los articulos deben crearse desde compras.";
+    public ResponseEntity<Map<String, String>> agregarArticulo(@Valid @RequestBody Articulo articulo) {
+        Map<String, String> response = new HashMap<>();
+        response.put("error", "Los artículos deben crearse desde compras.");
+        return ResponseEntity.badRequest().body(response);
     }
 
+
     @PutMapping("/updateValorUnitario")
-    public ResponseEntity<String> updateValorUnitario(@Valid @RequestBody ArticuloUpdateValorDTO updateDTO) {
+    public ResponseEntity<Map<String, String>> updateValorUnitario(@Valid @RequestBody ArticuloUpdateValorDTO updateDTO) {
+        Map<String, String> response = new HashMap<>();
+
         if (articuloService.updateValorUnitario(updateDTO.getId(), updateDTO.getValorunitario())) {
-            return ResponseEntity.ok("Valor unitario actualizado exitosamente.");
+            response.put("message", "Valor unitario actualizado exitosamente.");
+            return ResponseEntity.ok().body(response);
         } else {
-            return ResponseEntity.badRequest().body("Error: ID de artículo no encontrado.");
+            response.put("error", "Error: ID de artículo no encontrado.");
+            return ResponseEntity.badRequest().body(response);
         }
     }
+
 
     @GetMapping("/getArticulos")
     public List<Articulo> getAll() {
@@ -40,22 +51,33 @@ public class ArticuloController {
     }
 
     @PutMapping("/actualizarArticulo")
-    public ResponseEntity<Articulo> actualizarArticulo(@Valid @RequestBody ArticuloUpdateDTO articuloUpdateDTO) {
+    public ResponseEntity<Map<String, Object>> actualizarArticulo(@Valid @RequestBody ArticuloUpdateDTO articuloUpdateDTO) {
+        Map<String, Object> response = new HashMap<>();
+
         try {
             Articulo articuloActualizado = articuloService.actualizarArticulo(articuloUpdateDTO);
-            return ResponseEntity.ok(articuloActualizado);
+            response.put("message", "Artículo actualizado exitosamente.");
+            response.put("articulo", articuloActualizado);
+            return ResponseEntity.ok().body(response);
         } catch (RuntimeException e) {
-            return ResponseEntity.badRequest().body(null);
+            response.put("error", "Error al actualizar el artículo: " + e.getMessage());
+            return ResponseEntity.badRequest().body(response);
         }
     }
 
+
     @DeleteMapping("/eliminarArticulo/{id}")
-    public ResponseEntity<String> eliminarArticulo(@PathVariable int id) {
+    public ResponseEntity<Map<String, String>> eliminarArticulo(@PathVariable int id) {
+        Map<String, String> response = new HashMap<>();
+
         try {
             articuloService.eliminarArticuloPorId(id);
-            return ResponseEntity.ok("Artículo eliminado exitosamente.");
+            response.put("message", "Artículo eliminado exitosamente.");
+            return ResponseEntity.ok().body(response);
         } catch (RuntimeException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
+            response.put("error", e.getMessage());
+            return ResponseEntity.badRequest().body(response);
         }
     }
+
 }

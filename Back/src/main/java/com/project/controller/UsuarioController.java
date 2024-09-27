@@ -19,7 +19,7 @@ import java.util.*;
 @CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("/api/usuarios")
 public class UsuarioController {
-    private static final Logger logger = LoggerFactory.getLogger(UsuarioController.class);
+    private static final Logger nuijhni6logger = LoggerFactory.getLogger(UsuarioController.class);
     @Autowired
     private UsuarioRepository usuarioRepository;
 
@@ -48,7 +48,8 @@ public class UsuarioController {
     }
 
     @PostMapping("/insertarUsuario")
-    public ResponseEntity<String> insertarUsuario(@RequestBody Map<String, Object> usuarioData) {
+    public ResponseEntity<Map<String, String>> insertarUsuario(@RequestBody Map<String, Object> usuarioData) {
+        Map<String, String> response = new HashMap<>();
 
         String correo = (String) usuarioData.get("correo");
         String passwd = (String) usuarioData.get("passwd");
@@ -57,33 +58,39 @@ public class UsuarioController {
         boolean cambiarClave = (boolean) usuarioData.get("cambiarClave");
         Date fechaUltimoCambioClave = new Date();
         Role rol;
-        if(((String) usuarioData.get("rol")).equals("ADMIN")){
+        if (((String) usuarioData.get("rol")).equals("ADMIN")) {
             rol = Role.ADMIN;
-        }else if(((String) usuarioData.get("rol")).equals("OPERATIVO")){
+        } else if (((String) usuarioData.get("rol")).equals("OPERATIVO")) {
             rol = Role.OPERATIVO;
-        }else if(((String) usuarioData.get("rol")).equals("AUDITOR")){
+        } else if (((String) usuarioData.get("rol")).equals("AUDITOR")) {
             rol = Role.AUDITOR;
-        }else {
+        } else {
             rol = Role.OPERATIVO;
         }
 
         if (usuarioRepository.existsByCorreo(correo)) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("El correo ya está en uso.");
+            response.put("error", "El correo ya está en uso.");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
         }
 
         if (usuarioRepository.existsByCedula(cedula)) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("La cédula ya está en uso.");
+            response.put("error", "La cédula ya está en uso.");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
         }
 
         String valid = usuarioService.validarContrasena(passwd);
-        if(!(valid.equals("ok"))){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error: " + valid);
+        if (!valid.equals("ok")) {
+            response.put("error", "Error: " + valid);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
         }
+
         int token = tokenGenerator.generateToken();
-        try{
-            emailService.sendSimpleMessage(correo,"Token Registro Gestion de Inventarios","Este es su token de confirmación de registro, ingreselo en la aplicación: " + token);
-        }catch(Exception e){
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("No se pudo insertar el usuario: " + e.getMessage());
+        try {
+            emailService.sendSimpleMessage(correo, "Token Registro Gestion de Inventarios",
+                    "Este es su token de confirmación de registro, ingreselo en la aplicación: " + token);
+        } catch (Exception e) {
+            response.put("error", "No se pudo insertar el usuario: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
         }
 
         try {
@@ -102,78 +109,106 @@ public class UsuarioController {
 
             usuarioService.insertarUsuario(user);
 
-            return ResponseEntity.status(HttpStatus.CREATED).body("Se ha registrado con éxito. Al correo sumistrado llegará un token de verificación para activar su cuenta ");
+            response.put("message", "Se ha registrado con éxito. Al correo suministrado llegará un token de verificación para activar su cuenta.");
+            return ResponseEntity.status(HttpStatus.CREATED).body(response);
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("No se pudo insertar el usuario: " + e.getMessage());
+            response.put("error", "No se pudo insertar el usuario: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
         }
     }
 
+
     @PostMapping("/authUsuario")
-    public ResponseEntity<String> validarUsuario(@RequestBody LoginRequest request) {
+    public ResponseEntity<Map<String, String>> validarUsuario(@RequestBody LoginRequest request) {
+        Map<String, String> response = new HashMap<>();
+
         try {
             String correo = request.getCorreo();
             String passwd = request.getPasswd();
             AuthResponse authResponse = usuarioService.validarUsuario(correo, passwd, request);
 
             if (authResponse != null) {
-                return ResponseEntity.ok()
-                        .header(HttpHeaders.CONTENT_TYPE, "text/plain")
-                        .body("Usuario Autenticado.   token:" + authResponse.getToken());
-
+                response.put("message", "Usuario Autenticado");
+                response.put("token", authResponse.getToken());
+                return ResponseEntity.ok().body(response);
             } else {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Credenciales inválidas.");
+                response.put("error", "Credenciales inválidas.");
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
             }
 
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error: " + e.getMessage());
+            response.put("error", "Error: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
         }
     }
 
+
     @PostMapping("/confirmarregistro")
-    public ResponseEntity<String> confirmarRegistro(@RequestBody Map<String, Object> credenciales) {
+    public ResponseEntity<Map<String, String>> confirmarRegistro(@RequestBody Map<String, Object> credenciales) {
+        Map<String, String> response = new HashMap<>();
+
         try {
             String correo = (String) credenciales.get("correo");
             Integer token = (Integer) credenciales.get("token");
 
             if (usuarioService.confirmarRegistro(correo, token)) {
-                return ResponseEntity.ok("Usuario Confirmado.");
+                response.put("message", "Usuario Confirmado.");
+                return ResponseEntity.ok().body(response);
             } else {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Credenciales inválidas.");
+                response.put("error", "Credenciales inválidas.");
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
             }
 
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error " + e.getMessage());
+            response.put("error", "Error: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
         }
     }
 
+
     @PostMapping("/correoReestablecerContrasenia")
-    public ResponseEntity<String> recuperarContrasenia(@RequestBody Map<String, String> body){
-        String correo= body.get("correo");
-        if(correo!= null){
-            try{
+    public ResponseEntity<Map<String, String>> recuperarContrasenia(@RequestBody Map<String, String> body) {
+        Map<String, String> response = new HashMap<>();
+        String correo = body.get("correo");
+
+        if (correo != null) {
+            try {
                 usuarioService.correoRecuperacionContrasenia(correo);
-                return ResponseEntity.ok("Se ha enviado un correo de recuperacion con su token a su dirección de email registrada.");
-            }catch(Exception e){
-                return ResponseEntity.badRequest().body("Error: "+ e);
+                response.put("message", "Se ha enviado un correo de recuperación con su token a su dirección de email registrada.");
+                return ResponseEntity.ok().body(response);
+            } catch (Exception e) {
+                response.put("error", "Error: " + e.getMessage());
+                return ResponseEntity.badRequest().body(response);
             }
-        }else{
-            return ResponseEntity.badRequest().body("Correo inexistente.");
+        } else {
+            response.put("error", "Correo inexistente.");
+            return ResponseEntity.badRequest().body(response);
         }
     }
 
     @PostMapping("/ReestablecerContrasenia/{numeroToken}")
-    public ResponseEntity<String> reestablecerContrasenia(@PathVariable("numeroToken") int numeroToken, @RequestBody Map<String, String> body) {
+    public ResponseEntity<Map<String, String>> reestablecerContrasenia(@PathVariable("numeroToken") int numeroToken, @RequestBody Map<String, String> body) {
+        Map<String, String> response = new HashMap<>();
         String contrasenia = body.get("contrasenia");
+
         if (String.valueOf(numeroToken).length() == 6) {
             String resultado = usuarioService.recuperarContrasenia(numeroToken, contrasenia);
             if (resultado.equals("Contraseña actualizada con éxito.")) {
-                return ResponseEntity.ok(resultado);
+                response.put("message", resultado);
+                return ResponseEntity.ok().body(response);
             } else {
-                return ResponseEntity.badRequest().body(resultado);
+                response.put("error", resultado);
+                return ResponseEntity.badRequest().body(response);
             }
         } else {
-            return ResponseEntity.badRequest().body("El token debe ser de seis dígitos.");
+            response.put("error", "El token debe ser de seis dígitos.");
+            return ResponseEntity.badRequest().body(response);
         }
+    }
+
+    @GetMapping("/getUsuarios")
+    public List<Usuario> getAll() {
+        return usuarioService.getAllUsers();
     }
 
     @PostMapping("/RehabilitarUsuario/{numeroToken}")

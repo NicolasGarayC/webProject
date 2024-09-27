@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/ventas")
@@ -26,44 +28,55 @@ public class VentaController {
     private ErrorLoggingService errorLoggingService;
 
     @PostMapping("/nuevaVenta")
-    public ResponseEntity<Object> createVenta(@Valid @RequestBody VentaArticuloDTO ventaArticuloDTO) {
+    public ResponseEntity<Map<String, String>> createVenta(@Valid @RequestBody VentaArticuloDTO ventaArticuloDTO) {
+        Map<String, String> response = new HashMap<>();
         try {
             ventaService.createVenta(ventaArticuloDTO);
-            return new ResponseEntity<>("Venta registrada exitosamente", HttpStatus.OK);
+            response.put("message", "Venta registrada exitosamente");
+            return ResponseEntity.ok().body(response);
         } catch (Exception e) {
             errorLoggingService.logError("Error en VentaController - createVenta", e, ventaArticuloDTO.toString());
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al crear la venta: " + e.getMessage());
+            response.put("error", "Error al crear la venta: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
         }
     }
 
     @PostMapping("/devolucionVenta")
-    public ResponseEntity<String> revertirVenta(@Valid @RequestBody ReversionVentaDTO reversionVentaDTO) {
+    public ResponseEntity<Map<String, String>> revertirVenta(@Valid @RequestBody ReversionVentaDTO reversionVentaDTO) {
+        Map<String, String> response = new HashMap<>();
         try {
             boolean exito = ventaService.revertirVenta(reversionVentaDTO);
             if (exito) {
                 String mensaje = String.format("Articulos devueltos exitosamente. ID de la Venta: %d, Fecha y hora de la reversión: %s",
                         reversionVentaDTO.getIdVenta(), LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
-                return new ResponseEntity<>(mensaje, HttpStatus.OK);
+                response.put("message", mensaje);
+                return ResponseEntity.ok().body(response);
             } else {
-                return new ResponseEntity<>("La reversión de la venta no pudo completarse.", HttpStatus.INTERNAL_SERVER_ERROR);
+                response.put("error", "La reversión de la venta no pudo completarse.");
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
             }
         } catch (Exception e) {
             errorLoggingService.logError("Error en VentaController - devolucionVenta", e, reversionVentaDTO.toString());
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+            response.put("error", "Error: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
         }
     }
-    
+
+
     @PostMapping("/estadoVenta")
-    public ResponseEntity<String> actualizarEstadoVenta(@RequestBody EstadosDTO estadosDTO) {
+    public ResponseEntity<Map<String, String>> actualizarEstadoVenta(@RequestBody EstadosDTO estadosDTO) {
+        Map<String, String> response = new HashMap<>();
         try {
             int idVenta = estadosDTO.getOperacion();
-            for(articulosEstadoDTO estado : estadosDTO.getArticulos()){
-                ventaService.actualizarEstadoVenta(idVenta,estado);
+            for (articulosEstadoDTO estado : estadosDTO.getArticulos()) {
+                ventaService.actualizarEstadoVenta(idVenta, estado);
             }
-            return new ResponseEntity<>("Se cambió el estado", HttpStatus.OK);
+            response.put("message", "Se cambió el estado");
+            return ResponseEntity.ok().body(response);
         } catch (Exception e) {
             errorLoggingService.logError("Error en VentaController - actualizarEstadoCompra", e, "");
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+            response.put("error", "Error: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
         }
     }
 }

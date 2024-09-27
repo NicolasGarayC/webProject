@@ -1,0 +1,79 @@
+/* Asegúrate de que los campos del formulario ocupen todo el ancho disponible */
+mat-form-field {
+  width: 100%;
+}
+
+/* Ajusta el contenedor del formulario para ocupar todo el espacio disponible */
+mat-dialog-content {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 10px 0; /* Espacio alrededor de los campos */
+}
+
+/* Opcional: Puedes agregar algo de margen para los botones en la parte inferior */
+mat-dialog-actions {
+  display: flex;
+  justify-content: flex-end; /* Alinea los botones a la derecha */
+  padding-top: 20px;
+}
+
+button.mat-button {
+  padding: 10px 20px;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-left: 10px;
+  border-radius: 4px;
+}
+
+/* Alineación de los botones */
+mat-dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 20px;
+}
+
+/* Contenedor para los botones, alineados y centrados */
+.action-buttons {
+    display: flex;
+    justify-content: center; /* Centra los botones horizontalmente */
+    gap: 20px; /* Espacio entre los botones */
+    margin-top: 20px; /* Añadir un margen superior para separación */
+  }
+  
+  /* Estilo para los botones */
+  .action-button {
+    color: white; /* Texto en blanco */
+    font-size: 14px;
+    padding: 10px 20px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-radius: 4px; /* Botones ligeramente redondeados */
+  }
+  
+  /* Efecto hover para cambiar el fondo del botón */
+  .action-button:hover {
+    background-color: #808080; /* Azul más oscuro en hover */
+  }
+  
+  /* Desactivar el color de texto en botones deshabilitados */
+  button.mat-raised-button[disabled] {
+    color: rgba(255, 255, 255, 0.5); /* Texto gris claro para botón deshabilitado */
+  }
+
+  .red{
+    background-color: #fd0101; /* Fondo azul */
+
+  }
+  .blue{
+    background-color: #3f51b5; /* Fondo azul */
+  }
+
+  /* Contenedor principal que centra el spinner */
+.mat-spinner-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* Asegura que ocupe todo el espacio vertical del componente */
+}

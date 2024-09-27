@@ -7,7 +7,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/clientes")
@@ -27,17 +29,30 @@ public class ClienteController {
     }
 
     @DeleteMapping("/{id}")
-    public void eliminarCliente(@PathVariable Long id) {
-        clienteService.eliminarCliente(id);
+    public ResponseEntity<Map<String, String>> eliminarCliente(@PathVariable Long id) {
+        Map<String, String> response = new HashMap<>();
+        try {
+            clienteService.eliminarCliente(id);
+            response.put("message", "Cliente eliminado exitosamente");
+            return ResponseEntity.ok().body(response);
+        } catch (Exception e) {
+            response.put("error", "Error al eliminar el cliente: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+        }
     }
 
     @PostMapping("/nuevoCliente")
-    public ResponseEntity<Object> insertarCliente(@RequestBody Cliente cliente) {
+    public ResponseEntity<Map<String, Object>> insertarCliente(@RequestBody Cliente cliente) {
+        Map<String, Object> response = new HashMap<>();
         try {
             Cliente savedCliente = clienteService.guardarCliente(cliente);
-            return ResponseEntity.status(HttpStatus.CREATED).body(savedCliente);
+            response.put("message", "Cliente creado exitosamente");
+            response.put("cliente", savedCliente);
+            return ResponseEntity.status(HttpStatus.CREATED).body(response);
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al crear el cliente: " + e.getMessage());
+            response.put("error", "Error al crear el cliente: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
         }
     }
+
 }

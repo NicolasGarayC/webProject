@@ -7,7 +7,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -33,18 +35,18 @@ public class ProveedorController {
     }
 
     @PostMapping("/createProveedor")
-    public ResponseEntity<?> createProveedor(@RequestBody Proveedor proveedor) {
-        
+    public ResponseEntity<Map<String, String>> createProveedor(@RequestBody Proveedor proveedor) {
+
         Proveedor existingProveedor = proveedorRepository.findByIdentificacion(proveedor.getIdentificacion());
+        Map<String, String> response = new HashMap<>();
 
         if (existingProveedor != null) {
-
-            return ResponseEntity.status(HttpStatus.CONFLICT)
-                    .body("El proveedor ya se encuentra registrado.");
+            response.put("error", "El proveedor ya se encuentra registrado.");
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(response);
         } else {
-
-            Proveedor newProveedor = proveedorRepository.save(proveedor);
-            return ResponseEntity.status(HttpStatus.CREATED).body("OK");
+            proveedorRepository.save(proveedor);
+            response.put("message", "Proveedor creado exitosamente.");
+            return ResponseEntity.status(HttpStatus.CREATED).body(response);
         }
     }
 

@@ -44,27 +44,35 @@ public class CompraController {
 
 
     @PostMapping("/devolucionCompra")
-    public ResponseEntity<String> actualizarDevolucion(@Valid @RequestBody DevoUpdateDTO devoUpdateDTO) {
+    public ResponseEntity<Map<String, String>> actualizarDevolucion(@Valid @RequestBody DevoUpdateDTO devoUpdateDTO) {
+        Map<String, String> response = new HashMap<>();
         try {
             compraService.actualizarDevolucion(devoUpdateDTO.getIdCompra(), devoUpdateDTO.getDescripcion(), devoUpdateDTO.getDevuelto());
-            return new ResponseEntity<>("Devolución exitosa", HttpStatus.OK);
+            response.put("message", "Devolución exitosa");
+            return ResponseEntity.ok().body(response);
         } catch (RuntimeException e) {
             errorLoggingService.logError("Error en CompraController - devolucionCompra", e, devoUpdateDTO.toString());
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+            response.put("error", "Error: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
         }
     }
 
+
     @PostMapping("/estadoCompra")
-    public ResponseEntity<String> actualizarEstadoCompra(@RequestBody EstadosDTO estadosDTO) {
+    public ResponseEntity<Map<String, String>> actualizarEstadoCompra(@RequestBody EstadosDTO estadosDTO) {
+        Map<String, String> response = new HashMap<>();
         try {
             int idCompra = estadosDTO.getOperacion();
-            for(articulosEstadoDTO estado : estadosDTO.getArticulos()){
-                compraService.actualizarEstadoCompra(idCompra,estado);
+            for (articulosEstadoDTO estado : estadosDTO.getArticulos()) {
+                compraService.actualizarEstadoCompra(idCompra, estado);
             }
-            return new ResponseEntity<>("Se cambió el estado", HttpStatus.OK);
+            response.put("message", "Se cambió el estado");
+            return ResponseEntity.ok().body(response);
         } catch (Exception e) {
             errorLoggingService.logError("Error en CompraController - actualizarEstadoCompra", e, "");
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+            response.put("error", "Error: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
         }
     }
+
 }
