@@ -12,8 +12,8 @@ export class ArticuloService {
 
   constructor(private http: HttpClient) { }
 
-  getArticulos(): Observable<Articulo[]> {
-    return this.http.get<Articulo[]>(this.apiUrl);
+  getArticulos(): Observable<any> {
+    return this.http.get<any>(this.apiUrl);
   }
 
   deleteArticulo(id: number): Observable<void> {
@@ -21,7 +21,7 @@ export class ArticuloService {
   }
 
   addArticulo(articulo: Articulo): Observable<Articulo> {
-    return this.http.post<Articulo>(`${environment.apiUrl}/articulos`, articulo);
+    return this.http.post<Articulo>(`${environment.apiUrl}/compras/registrarCompra`, articulo);
   }
 
   updateArticulo(articulo: ArticuloData): Observable<Articulo> {

@@ -2,7 +2,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background-color: #1976d2; /* Azul Material */
+  background-color: #572695;
   color: white;
   padding: 8px 16px;
 }
@@ -20,4 +20,29 @@
 
 .full-width {
   width: 100%;
+}
+
+.radio-group {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.mat-radio-button {
+  margin-right: 20px;
+}
+
+button.full-width {
+  width: 100%;
+  display: block;
+  margin-top: 20px;
+}
+
+.btn-aceptar {
+  background-color: #572695;
+  padding-bottom: 20px;
+}
+
+button.mat-raised-button {
+  margin-top: 20px;
 }

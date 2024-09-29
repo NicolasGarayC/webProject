@@ -53,6 +53,8 @@ export class ArticlesComponent implements OnInit {
     this.isLoading = true;
     this.articlesService.getArticulos().subscribe({
       next: (data) => {
+        console.log(data);
+        
         this.articulos.data = data;
         this.isLoading = false;
       },
@@ -94,6 +96,9 @@ export class ArticlesComponent implements OnInit {
         this.articlesService.updateArticulo(result).subscribe({
           next: () => {
             this.loadArticulos(); // Recarga los artículos después de editar
+            this.snackBar.open('Componente actualizado con exito.', 'Cerrar', {
+              duration: 3000
+            });
           },
           error: (error) => {
             this.loadArticulos(); // Recarga los artículos después de añadir
@@ -106,7 +111,8 @@ export class ArticlesComponent implements OnInit {
 
   addArticulo(): void {
     const dialogRef = this.dialog.open(ArticleDialogComponent, {
-      width: '400px',
+      width: '700px',
+      height: '500px',
       data: {
         nombrearticulo: '',
         marca: '',
@@ -123,11 +129,12 @@ export class ArticlesComponent implements OnInit {
       if (result) {
         this.articlesService.addArticulo(result).subscribe({
           next: (res) => {
-            console.log(res);
-            this.loadArticulos(); // Recarga los artículos después de añadir
+            if(res){
+              this.loadArticulos(); 
+            }
           },
           error: (error) => {
-            this.loadArticulos(); // Recarga los artículos después de añadir
+            this.loadArticulos(); 
             console.error('Error al añadir el artículo', error);
           }
         });

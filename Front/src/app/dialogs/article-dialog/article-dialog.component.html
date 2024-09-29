@@ -1,67 +1,125 @@
 <div class="dialog-header">
-    <button mat-icon-button (click)="onCancel()">
-        <mat-icon>arrow_back</mat-icon>
-    </button>
-    <span class="dialog-title">{{data.isEdit ? 'Actualizar Artículo' : 'Registrar Nuevo Artículo'}}</span>
-    <button mat-button [disabled]="!articuloForm.valid" (click)="onSave()">
-        <mat-icon>save</mat-icon>
-    </button>
+  <button mat-icon-button (click)="onCancel()">
+    <mat-icon>arrow_back</mat-icon>
+  </button>
+  <span class="dialog-title">{{ data.isEdit ? 'Editar Artículo' : 'Registrar Nueva Compra' }}</span>
 </div>
 
 <div mat-dialog-content>
-    <form [formGroup]="articuloForm" class="full-width-form">
+  <form [formGroup]="compraForm" class="full-width-form">
 
-        <mat-form-field class="full-width" appearance="fill" *ngIf="!data.id">
-            <mat-label>Proveedor</mat-label>
-            <mat-select formControlName="proveedorId">
-                <mat-option *ngFor="let proveedor of proveedores$ | async" [value]="proveedor.id">
-                    {{ proveedor.nombre }}
-                </mat-option>
-            </mat-select>
-        </mat-form-field>
+    <!-- Campo de proveedor, solo si no es edición -->
+    <mat-form-field *ngIf="!data.isEdit" class="full-width" appearance="fill">
+      <mat-label>Proveedor</mat-label>
+      <mat-select formControlName="proveedorId">
+        <mat-option *ngFor="let proveedor of proveedores$ | async" [value]="proveedor.id">
+          {{ proveedor.nombre }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
 
-        <mat-form-field class="full-width" appearance="fill" *ngIf="!data.id">
-            <mat-label>Categoría</mat-label>
-            <mat-select formControlName="categoriaId">
-              <mat-option *ngFor="let categoria of categorias$ | async" [value]="categoria.id">
-                {{ categoria.nombreCategorias }}
-              </mat-option>
-            </mat-select>
+    <!-- Radio buttons para seleccionar entre nuevo artículo o artículo existente -->
+    <mat-radio-group *ngIf="!data.isEdit" formControlName="nuevoArticulo" class="radio-group">
+      <mat-radio-button [value]="true">Nuevo Artículo</mat-radio-button>
+      <mat-radio-button [value]="false">Artículo Existente</mat-radio-button>
+    </mat-radio-group>
+
+    <!-- Mostrar los campos de artículo -->
+    <div>
+      <!-- Si es nuevo artículo o estamos en edición -->
+      <div *ngIf="compraForm.get('nuevoArticulo')?.value === true || data.isEdit">
+        <mat-form-field class="full-width" appearance="fill">
+          <mat-label>Nombre del artículo</mat-label>
+          <input matInput formControlName="nombrearticulo">
         </mat-form-field>
 
         <mat-form-field class="full-width" appearance="fill">
-            <mat-label>Nombre</mat-label>
-            <input matInput formControlName="nombrearticulo">
+          <mat-label>Marca</mat-label>
+          <input matInput formControlName="marca">
         </mat-form-field>
 
         <mat-form-field class="full-width" appearance="fill">
-            <mat-label>Marca</mat-label>
-            <input matInput formControlName="marca">
+          <mat-label>Modelo</mat-label>
+          <input matInput formControlName="modelo">
         </mat-form-field>
 
         <mat-form-field class="full-width" appearance="fill">
-            <mat-label>Modelo</mat-label>
-            <input matInput formControlName="modelo">
+          <mat-label>Color</mat-label>
+          <input matInput formControlName="color">
         </mat-form-field>
 
         <mat-form-field class="full-width" appearance="fill">
-            <mat-label>Color</mat-label>
-            <input matInput formControlName="color">
+          <mat-label>Unidad de Medida</mat-label>
+          <input matInput formControlName="unidaddemedida">
         </mat-form-field>
+      </div>
 
+      <!-- Si es artículo existente -->
+      <div *ngIf="compraForm.get('nuevoArticulo')?.value === false && !data.isEdit">
         <mat-form-field class="full-width" appearance="fill">
-            <mat-label>Unidad de Medida</mat-label>
-            <input matInput formControlName="unidaddemedida">
+          <mat-label>Artículo Existente</mat-label>
+          <mat-select formControlName="articuloExistenteId">
+            <mat-option *ngFor="let articulo of articulos$ | async" [value]="articulo.id">
+              {{ articulo.nombrearticulo }} ({{ articulo.marca }} - {{ articulo.modelo }})
+            </mat-option>
+          </mat-select>
         </mat-form-field>
+      </div>
+    </div>
 
-        <mat-form-field class="full-width" appearance="fill">
-            <mat-label>Unidades Disponibles</mat-label>
-            <input matInput type="number" formControlName="unidadesdisponibles">
-        </mat-form-field>
+    <!-- Unidades y Valor Unitario -->
+    <mat-form-field class="full-width" appearance="fill">
+      <mat-label>Unidades Compradas</mat-label>
+      <input matInput type="number" formControlName="unidadesCompradas">
+    </mat-form-field>
 
-        <mat-form-field class="full-width" appearance="fill">
-            <mat-label>Valor Unitario</mat-label>
-            <input matInput type="number" formControlName="valorunitario">
-        </mat-form-field>
-    </form>
+    <mat-form-field class="full-width" appearance="fill">
+      <mat-label>Valor por Unidad</mat-label>
+      <input matInput type="number" formControlName="valorUnidad">
+    </mat-form-field>
+
+    <!-- Botón Aceptar -->
+    <button *ngIf="!data.isEdit" mat-raised-button color="primary" class="btn-aceptar full-width" (click)="aceptarArticulo()">Aceptar</button>
+
+    <!-- Tabla para mostrar los artículos agregados -->
+    <table *ngIf="!data.isEdit" mat-table [dataSource]="articulosData" class="mat-elevation-z8">
+      <ng-container matColumnDef="nombrearticulo">
+        <th mat-header-cell *matHeaderCellDef> Nombre del Artículo </th>
+        <td mat-cell *matCellDef="let elemento"> {{ elemento.articulo.nombrearticulo }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="marca">
+        <th mat-header-cell *matHeaderCellDef> Marca </th>
+        <td mat-cell *matCellDef="let elemento"> {{ elemento.articulo.marca }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="modelo">
+        <th mat-header-cell *matHeaderCellDef> Modelo </th>
+        <td mat-cell *matCellDef="let elemento"> {{ elemento.articulo.modelo }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="unidaddemedida">
+        <th mat-header-cell *matHeaderCellDef> Unidad de Medida </th>
+        <td mat-cell *matCellDef="let elemento"> {{ elemento.articulo.unidaddemedida }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="unidadesCompradas">
+        <th mat-header-cell *matHeaderCellDef> Unidades Compradas </th>
+        <td mat-cell *matCellDef="let elemento"> {{ elemento.unidadesCompradas }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="valorUnidad">
+        <th mat-header-cell *matHeaderCellDef> Valor Unidad </th>
+        <td mat-cell *matCellDef="let elemento"> {{ elemento.valorUnidad }} </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+
+    <!-- Botón para enviar la petición de almacenamiento -->
+    <button mat-raised-button color="primary" class="full-width" (click)="guardarCompra()">
+      {{ data.isEdit ? 'Guardar Cambios' : 'Guardar Compra' }}
+    </button>
+  </form>
 </div>

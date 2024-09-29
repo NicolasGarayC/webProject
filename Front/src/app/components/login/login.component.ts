@@ -59,8 +59,10 @@ export class LoginComponent {
           })
         )
         .subscribe(response => {
-          if (response && response.startsWith('Usuario Autenticado')) {
-            const token = response.split('token:')[1].trim();
+          response = JSON.parse(response) 
+          console.log("response",response);
+          if (response && response.message === 'Usuario Autenticado') {
+            const token = response.token;
             localStorage.setItem('authToken', token);
             this.router.navigate(['/reports']);
             this.snackBar.open('Usuario autenticado correctamente', 'Cerrar', {
