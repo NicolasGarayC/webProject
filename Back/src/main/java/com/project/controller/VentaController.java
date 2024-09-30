@@ -1,9 +1,6 @@
 package com.project.controller;
 
-import com.project.model.EstadosDTO;
-import com.project.model.ReversionVentaDTO;
-import com.project.model.VentaArticuloDTO;
-import com.project.model.articulosEstadoDTO;
+import com.project.model.*;
 import com.project.service.ErrorLoggingService;
 import com.project.service.VentaService;
 import jakarta.validation.Valid;
@@ -15,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -79,4 +77,9 @@ public class VentaController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
         }
     }
+    @GetMapping("/getArticulos")
+    public List<Venta> getAll() {
+        return ventaService.getAllVentas();
+    }
+
 }

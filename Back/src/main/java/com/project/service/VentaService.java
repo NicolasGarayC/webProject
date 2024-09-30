@@ -230,5 +230,7 @@ public class VentaService {
         }
     }
 
-
+    public List<Venta> getAllVentas() {
+        return ventaRepository.findAll();
+    }
 }

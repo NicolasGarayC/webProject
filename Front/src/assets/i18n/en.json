@@ -1,0 +1,18 @@
+{
+    "APP_TITLE": "InvenTrack",
+    "MENU": {
+      "REPORTS": "Reports",
+      "MANAGE_INVENTORY": "Manage Inventory",
+      "MANAGE_PRODUCTS": "Manage Products",
+      "MANAGE_PROVIDERS": "Manage Providers",
+      "MANAGE_SALES": "Manage Sales",
+      "MANAGE_USERS": "Manage Users",
+      "SETTINGS": "Settings",
+      "LOGOUT": "Logout",
+      "LANGUAGES": {
+        "ENGLISH": "English",
+        "SPANISH": "Español"
+      }
+    }
+  }
+  

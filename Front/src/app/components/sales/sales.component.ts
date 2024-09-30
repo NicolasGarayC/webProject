@@ -1,29 +1,38 @@
 import { Component, OnInit } from '@angular/core';
-import { MatTableModule, MatTableDataSource } from '@angular/material/table';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { CommonModule } from '@angular/common';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { VentaService } from '../../services/sales/sales.service';
 import { VentaArticuloDTO } from '../../models/sales.interface';
 import { ConfirmDialogComponent } from '../../dialogs/confirmation-dialog/confirmation-dialog.component';
+import { VentaDialogComponent } from '../../dialogs/sales-dialog/sales-dialog.component';
+import { CommonModule } from '@angular/common';
+import { ReactiveFormsModule } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatSelectModule } from '@angular/material/select';
 
 @Component({
   selector: 'app-sales',
   templateUrl: './sales.component.html',
+  styleUrls: ['sales.component.css'],
   standalone: true,
   imports: [
-    MatTableModule,
+    CommonModule,
+    ReactiveFormsModule,
+    MatDialogModule,
+    MatFormFieldModule,
+    MatInputModule,
     MatButtonModule,
     MatIconModule,
-    MatProgressSpinnerModule,
-    CommonModule,
-    MatSnackBarModule,
-    MatDialogModule,
-  ],
-  styleUrls: ['sales.component.css'],
+    MatSelectModule,
+    MatRadioModule,
+    MatTableModule
+  ]
+
 })
 export class VentasComponent implements OnInit {
   sales: MatTableDataSource<VentaArticuloDTO> = new MatTableDataSource<VentaArticuloDTO>();
@@ -43,13 +52,13 @@ export class VentasComponent implements OnInit {
   loadVentas(): void {
     this.isLoading = true;
     this.ventaService.getVentas().subscribe({
-      next: (data:any) => {
+      next: (data: any) => {
         this.sales.data = data;
         this.isLoading = false;
       },
-      error: (error:any) => {
+      error: (error: any) => {
         this.isLoading = false;
-        this.snackBar.open('Error al cargar las sales.', 'Cerrar', {
+        this.snackBar.open('Error al cargar las ventas.', 'Cerrar', {
           duration: 3000,
         });
         console.error('Error fetching sales', error);
@@ -69,10 +78,10 @@ export class VentasComponent implements OnInit {
             this.loadVentas();
           },
           error: (error) => {
-            this.snackBar.open('Error al revertir la sale.', 'Cerrar', {
+            this.snackBar.open('Error al revertir la venta.', 'Cerrar', {
               duration: 3000,
             });
-            console.error('Error al revertir la sale', error);
+            console.error('Error al revertir la venta', error);
           },
         });
       }
@@ -80,48 +89,50 @@ export class VentasComponent implements OnInit {
   }
 
   addVenta(): void {
-    // const dialogRef = this.dialog.open(VentaDialogComponent, {
-    //   width: '400px',
-    //   data: { isEdit: false },
-    // });
+    const dialogRef = this.dialog.open(VentaDialogComponent, {
+      width: '700px',
+      height: '500px',
+      data: { isEdit: false },
+    });
 
-    // dialogRef.afterClosed().subscribe((result: VentaArticuloDTO) => {
-    //   if (result) {
-    //     this.ventaService.createVenta(result).subscribe({
-    //       next: () => {
-    //         this.loadVentas();
-    //       },
-    //       error: (error) => {
-    //         this.snackBar.open('Error al registrar la sale.', 'Cerrar', {
-    //           duration: 3000,
-    //         });
-    //         console.error('Error al registrar la sale', error);
-    //       },
-    //     });
-    //   }
-    // });
+    dialogRef.afterClosed().subscribe((result: VentaArticuloDTO) => {
+      if (result) {
+        this.ventaService.createVenta(result).subscribe({
+          next: () => {
+            this.loadVentas();
+          },
+          error: (error) => {
+            this.snackBar.open('Error al registrar la venta.', 'Cerrar', {
+              duration: 3000,
+            });
+            console.error('Error al registrar la venta', error);
+          },
+        });
+      }
+    });
   }
 
   editVenta(sale: VentaArticuloDTO): void {
-    // const dialogRef = this.dialog.open(VentaDialogComponent, {
-    //   width: '400px',
-    //   data: { ...sale, isEdit: true },
-    // });
+    const dialogRef = this.dialog.open(VentaDialogComponent, {
+      width: '700px',
+      height: '500px',
+      data: { ...sale, isEdit: true },
+    });
 
-    // dialogRef.afterClosed().subscribe((result: VentaArticuloDTO) => {
-    //   if (result) {
-    //     this.ventaService.actualizarEstadoVenta({ operacion: result.id, articulos: result.articulos }).subscribe({
-    //       next: () => {
-    //         this.loadVentas();
-    //       },
-    //       error: (error) => {
-    //         this.snackBar.open('Error al actualizar la sale.', 'Cerrar', {
-    //           duration: 3000,
-    //         });
-    //         console.error('Error al actualizar la sale', error);
-    //       },
-    //     });
-    //   }
-    // });
+    dialogRef.afterClosed().subscribe((result: VentaArticuloDTO) => {
+      if (result) {
+        this.ventaService.updateVenta(result).subscribe({
+          next: () => {
+            this.loadVentas();
+          },
+          error: (error:any) => {
+            this.snackBar.open('Error al actualizar la venta.', 'Cerrar', {
+              duration: 3000,
+            });
+            console.error('Error al actualizar la venta', error);
+          },
+        });
+      }
+    });
   }
 }

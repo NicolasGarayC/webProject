@@ -28,4 +28,7 @@ export class VentaService {
     // Método para obtener la lista de ventas
     return this.http.get<VentaArticuloDTO[]>(`${this.apiUrl}/listaVentas`);
   }
+  updateVenta(data:any):any{
+    return null
+  }
 }

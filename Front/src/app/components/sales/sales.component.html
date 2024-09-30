@@ -1,41 +1,39 @@
 <div class="sales-container">
-    <h2>Gestión de Sales</h2>
-    <button mat-raised-button color="primary" (click)="addVenta()">Registrar Nueva Sale</button>
-    <table mat-table [dataSource]="sales" class="mat-elevation-z8">
-  
-      <!-- ID Column -->
-      <ng-container matColumnDef="id">
-        <th mat-header-cell *matHeaderCellDef> ID </th>
-        <td mat-cell *matCellDef="let sale"> {{sale.id}} </td>
-      </ng-container>
-  
-      <!-- Fecha Column -->
-      <ng-container matColumnDef="fecha">
-        <th mat-header-cell *matHeaderCellDef> Fecha </th>
-        <td mat-cell *matCellDef="let sale"> {{sale.fecha}} </td>
-      </ng-container>
-  
-      <!-- Total Column -->
-      <ng-container matColumnDef="total">
-        <th mat-header-cell *matHeaderCellDef> Total </th>
-        <td mat-cell *matCellDef="let sale"> {{sale.total}} </td>
-      </ng-container>
-  
-      <!-- Acciones Column -->
-      <ng-container matColumnDef="acciones">
-        <th mat-header-cell *matHeaderCellDef> Acciones </th>
-        <td mat-cell *matCellDef="let sale">
-          <button mat-button (click)="editVenta(sale)">
-            <mat-icon>edit</mat-icon>
-          </button>
-          <button mat-button (click)="deleteVenta(sale.id)">
-            <mat-icon>delete</mat-icon>
-          </button>
-        </td>
-      </ng-container>
-  
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-    </table>
-  </div>
-  
+  <h2>Gestión de Ventas</h2>
+  <button mat-raised-button color="primary" (click)="addVenta()">Registrar Nueva Venta</button>
+  <table mat-table [dataSource]="sales" class="mat-elevation-z8">
+    <!-- ID Column -->
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef> ID </th>
+      <td mat-cell *matCellDef="let sale"> {{ sale.id }} </td>
+    </ng-container>
+
+    <!-- Fecha Column -->
+    <ng-container matColumnDef="fecha">
+      <th mat-header-cell *matHeaderCellDef> Fecha </th>
+      <td mat-cell *matCellDef="let sale"> {{ sale.fecha }} </td>
+    </ng-container>
+
+    <!-- Total Column -->
+    <ng-container matColumnDef="total">
+      <th mat-header-cell *matHeaderCellDef> Total </th>
+      <td mat-cell *matCellDef="let sale"> {{ sale.total }} </td>
+    </ng-container>
+
+    <!-- Acciones Column -->
+    <ng-container matColumnDef="acciones">
+      <th mat-header-cell *matHeaderCellDef> Acciones </th>
+      <td mat-cell *matCellDef="let sale">
+        <button mat-button (click)="editVenta(sale)">
+          <mat-icon>edit</mat-icon>
+        </button>
+        <button mat-button (click)="deleteVenta(sale.id)">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+</div>

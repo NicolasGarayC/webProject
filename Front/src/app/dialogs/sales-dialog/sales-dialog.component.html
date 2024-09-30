@@ -1,0 +1,76 @@
+<div class="dialog-header">
+  <button mat-icon-button (click)="onCancel()">
+    <mat-icon>arrow_back</mat-icon>
+  </button>
+  <span class="dialog-title">{{ isEdit ? 'Editar Venta' : 'Registrar Nueva Venta' }}</span>
+</div>
+
+<div mat-dialog-content>
+  <form [formGroup]="ventaForm" class="full-width-form">
+    <!-- Campos de selección de artículos -->
+    <mat-form-field class="full-width" appearance="fill">
+      <mat-label>Artículo</mat-label>
+      <mat-select formControlName="articuloId">
+        <mat-option *ngFor="let articulo of articulos$ | async" [value]="articulo.id">
+          {{ articulo.nombrearticulo }} ({{ articulo.marca }} - {{ articulo.modelo }})
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <!-- Cantidad Vendida -->
+    <mat-form-field class="full-width" appearance="fill">
+      <mat-label>Cantidad Vendida</mat-label>
+      <input matInput type="number" formControlName="cantidadVendida">
+    </mat-form-field>
+
+    <!-- Valor Unitario -->
+    <mat-form-field class="full-width" appearance="fill">
+      <mat-label>Valor Unitario</mat-label>
+      <input matInput type="number" formControlName="valorUnitario">
+    </mat-form-field>
+
+    <!-- Botón Agregar Artículo -->
+    <button mat-raised-button color="primary" class="full-width" (click)="agregarArticulo()">Agregar Artículo</button>
+
+    <!-- Tabla de artículos agregados -->
+    <table mat-table [dataSource]="articulosData" class="mat-elevation-z8">
+      <ng-container matColumnDef="nombrearticulo">
+        <th mat-header-cell *matHeaderCellDef> Nombre del Artículo </th>
+        <td mat-cell *matCellDef="let elemento"> {{ elemento.articulo.nombrearticulo }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="marca">
+        <th mat-header-cell *matHeaderCellDef> Marca </th>
+        <td mat-cell *matCellDef="let elemento"> {{ elemento.articulo.marca }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="modelo">
+        <th mat-header-cell *matHeaderCellDef> Modelo </th>
+        <td mat-cell *matCellDef="let elemento"> {{ elemento.articulo.modelo }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="unidaddemedida">
+        <th mat-header-cell *matHeaderCellDef> Unidad de Medida </th>
+        <td mat-cell *matCellDef="let elemento"> {{ elemento.articulo.unidaddemedida }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="cantidadVendida">
+        <th mat-header-cell *matHeaderCellDef> Cantidad Vendida </th>
+        <td mat-cell *matCellDef="let elemento"> {{ elemento.cantidadVendida }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="valorUnitario">
+        <th mat-header-cell *matHeaderCellDef> Valor Unitario </th>
+        <td mat-cell *matCellDef="let elemento"> {{ elemento.valorUnitario }} </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+
+    <!-- Botón Guardar -->
+    <button mat-raised-button color="primary" class="full-width" (click)="guardarVenta()">
+      {{ isEdit ? 'Guardar Cambios' : 'Registrar Venta' }}
+    </button>
+  </form>
+</div>
