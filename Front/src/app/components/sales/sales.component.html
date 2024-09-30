@@ -13,15 +13,16 @@
     </ng-container>
 
     <!-- Fecha Column -->
-    <ng-container matColumnDef="fecha">
-      <th mat-header-cell *matHeaderCellDef> {{ 'SALES.DATE' | translate }} </th>
-      <td mat-cell *matCellDef="let sale"> {{ sale.fecha }} </td>
-    </ng-container>
+<!-- Fecha Column -->
+<ng-container matColumnDef="fecha">
+  <th mat-header-cell *matHeaderCellDef> {{ 'SALES.DATE' | translate }} </th>
+  <td mat-cell *matCellDef="let sale"> {{ formatFecha(sale.fechaVenta) }} </td>
+</ng-container>
 
     <!-- Total Column -->
     <ng-container matColumnDef="total">
       <th mat-header-cell *matHeaderCellDef> {{ 'SALES.TOTAL' | translate }} </th>
-      <td mat-cell *matCellDef="let sale"> {{ sale.total }} </td>
+      <td mat-cell *matCellDef="let sale"> {{ sale.valorTotal }} </td>
     </ng-container>
 
     <!-- Acciones Column -->

@@ -59,7 +59,10 @@ export class VentasComponent implements OnInit {
     this.isLoading = true;
     this.ventaService.getVentas().subscribe({
       next: (data: any) => {
+        console.log("data",data);
+        
         this.sales.data = data;
+        console.log("this.sales.data",this.sales.data);
         this.isLoading = false;
       },
       error: (error: any) => {
@@ -116,6 +119,10 @@ export class VentasComponent implements OnInit {
         });
       }
     });
+  }
+
+  formatFecha(fecha: string): string {
+    return fecha ? fecha.split('T')[0] : '';
   }
 
   editVenta(sale: VentaArticuloDTO): void {

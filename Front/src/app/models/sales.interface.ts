@@ -1,7 +1,7 @@
 export interface VentaArticuloDTO {
     id: number;
-    fecha: string;
-    total: number;
+    fechaVenta: string;
+    valorTotal: number;
     articulos: any[];
   }
   
