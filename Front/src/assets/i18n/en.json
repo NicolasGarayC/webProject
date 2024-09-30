@@ -1,18 +1,129 @@
 {
-    "APP_TITLE": "InvenTrack",
-    "MENU": {
-      "REPORTS": "Reports",
-      "MANAGE_INVENTORY": "Manage Inventory",
-      "MANAGE_PRODUCTS": "Manage Products",
-      "MANAGE_PROVIDERS": "Manage Providers",
-      "MANAGE_SALES": "Manage Sales",
-      "MANAGE_USERS": "Manage Users",
-      "SETTINGS": "Settings",
-      "LOGOUT": "Logout",
-      "LANGUAGES": {
-        "ENGLISH": "English",
-        "SPANISH": "Español"
-      }
+  "APP_TITLE": "InvenTrack",
+  "MENU": {
+    "REPORTS": "Reports",
+    "MANAGE_INVENTORY": "Manage Inventory",
+    "MANAGE_PRODUCTS": "Manage Products",
+    "MANAGE_PROVIDERS": "Manage Providers",
+    "MANAGE_SALES": "Manage Sales",
+    "MANAGE_USERS": "Manage Users",
+    "SETTINGS": "Settings",
+    "LOGOUT": "Logout",
+    "LANGUAGES": {
+      "ENGLISH": "English",
+      "SPANISH": "Español"
     }
+  },
+  "ARTICLES": {
+    "MANAGE_ARTICLES": "Manage Articles",
+    "NAME": "Name",
+    "BRAND": "Brand",
+    "MODEL": "Model",
+    "COLOR": "Color",
+    "MEASUREMENT_UNIT": "Unit of Measurement",
+    "AVAILABLE_UNITS": "Available Units",
+    "UNIT_PRICE": "Unit Price",
+    "ACTIONS": "Actions",
+    "ADD_ARTICLE": "Add Article",
+    "EDIT": "Edit",
+    "DELETE": "Delete",
+    "LOADING": "Loading articles..."
+  },
+  "LOGIN": {
+    "TITLE": "Login",
+    "EMAIL_PLACEHOLDER": "Email",
+    "EMAIL_ERROR": "Please enter a valid email.",
+    "PASSWORD_PLACEHOLDER": "Password",
+    "PASSWORD_ERROR": "Password is required.",
+    "SUBMIT_BUTTON": "Login",
+    "AUTH_SUCCESS": "Successfully authenticated",
+    "AUTH_ERROR": "Authentication error",
+    "SNACKBAR_CLOSE": "Close"
+  },
+  "SALES": {
+    "TITLE": "Sales Management",
+    "ADD_SALE": "Register New Sale",
+    "ID": "ID",
+    "DATE": "Date",
+    "TOTAL": "Total",
+    "ACTIONS": "Actions",
+    "EDIT": "Edit",
+    "DELETE": "Delete",
+    "SNACKBAR_CLOSE": "Close",
+    "ERROR_LOAD": "Error loading sales.",
+    "ERROR_REVERT": "Error reverting the sale.",
+    "ERROR_REGISTER": "Error registering the sale.",
+    "ERROR_UPDATE": "Error updating the sale."
+  },
+  "USERS": {
+    "MANAGE_USERS": "Manage Users",
+    "EMAIL": "Email",
+    "NAME": "Name",
+    "ROLE": "Role",
+    "STATUS": "Status",
+    "ACTIONS": "Actions",
+    "EDIT": "Edit",
+    "DELETE": "Delete",
+    "ADD_USER": "Add User",
+    "SNACKBAR_CLOSE": "Close",
+    "ERROR_LOAD": "Error loading users.",
+    "ERROR_DELETE": "Error deleting the user.",
+    "ERROR_UPDATE": "Error updating the user.",
+    "SUCCESS_UPDATE": "User updated successfully.",
+    "SUCCESS_ADD": "User added successfully."
+  },
+  "ARTICLE": {
+    "EDIT_ARTICLE": "Edit Article",
+    "NEW_PURCHASE": "Register New Purchase",
+    "SUPPLIER": "Supplier",
+    "NEW_ARTICLE": "New Article",
+    "EXISTING_ARTICLE": "Existing Article",
+    "ARTICLE_NAME": "Article Name",
+    "BRAND": "Brand",
+    "MODEL": "Model",
+    "COLOR": "Color",
+    "UNIT_MEASURE": "Unit of Measure",
+    "EXISTING_ARTICLE_SELECT": "Select Existing Article",
+    "UNITS_PURCHASED": "Units Purchased",
+    "UNIT_PRICE": "Unit Price",
+    "ACCEPT": "Accept",
+    "SAVE_CHANGES": "Save Changes",
+    "SAVE_PURCHASE": "Save Purchase",
+    "INVALID_ARTICLE": "The selected article is not valid.",
+    "FILL_REQUIRED_FIELDS": "Please fill out all required fields.",
+    "CLOSE": "Close",
+    "ADD_AT_LEAST_ONE": "Please add at least one article."
+  },
+  "CONFIRM_DIALOG": {
+    "TITLE": "Confirmar Eliminación",
+    "MESSAGE": "¿Estás seguro de que deseas eliminar este artículo?",
+    "CANCEL": "Cancelar",
+    "DELETE": "Eliminar"
+  },
+  "VENTA_DIALOG": {
+    "TITLE_ADD": "Register New Sale",
+    "TITLE_EDIT": "Edit Sale",
+    "ARTICLE": "Article",
+    "QUANTITY": "Quantity Sold",
+    "UNIT_PRICE": "Unit Price",
+    "ADD_ARTICLE": "Add Article",
+    "SAVE_CHANGES": "Save Changes",
+    "REGISTER_SALE": "Register Sale",
+    "INVALID_ARTICLE": "The selected article is not valid.",
+    "FILL_FIELDS": "Please fill out all required fields.",
+    "ADD_ARTICLE_MESSAGE": "Please add at least one article to the sale."
+  },
+  "USER_DIALOG": {
+    "TITLE_EDIT": "Edit User",
+    "TITLE_ADD": "New User",
+    "EMAIL": "Email",
+    "PASSWORD": "Password",
+    "NAME": "Name",
+    "NAME_PLACEHOLDER": "Full Name",
+    "ID_NUMBER": "ID Number",
+    "ID_PLACEHOLDER": "1234567890",
+    "ROLE": "Role",
+    "CANCEL": "Cancel",
+    "SAVE": "Save"
   }
-  
+}

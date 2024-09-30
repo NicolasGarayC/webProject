@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { LoginService } from '../../services/login/login.service';
 import { MatInputModule } from '@angular/material/input';
@@ -11,6 +11,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { MatSidenavModule } from '@angular/material/sidenav';
+import { TranslateService } from '@ngx-translate/core';  // Importa TranslateService
+import { TranslateModule } from '@ngx-translate/core';  // Asegúrate de importar el TranslateModule
 
 @Component({
   selector: 'app-login',
@@ -24,7 +26,9 @@ import { MatSidenavModule } from '@angular/material/sidenav';
     MatFormFieldModule,
     MatSnackBarModule,
     CommonModule,
-    MatSidenavModule
+    MatSidenavModule,
+    TranslateModule,  // Añadir el TranslateModule aquí
+
   ],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
@@ -37,7 +41,8 @@ export class LoginComponent {
     private fb: FormBuilder,
     private loginService: LoginService,
     private snackBar: MatSnackBar,
-    private router: Router  
+    private router: Router,
+    private translate: TranslateService  // Añade el servicio de traducción
   ) {
     this.loginForm = this.fb.group({
       correo: ['', [Validators.required, Validators.email]],
@@ -50,7 +55,7 @@ export class LoginComponent {
       this.loginService.login(this.loginForm.value.correo, this.loginForm.value.passwd)
         .pipe(
           catchError(err => {
-            this.snackBar.open('Error en la autenticación', 'Cerrar', {
+            this.snackBar.open(this.translate.instant('LOGIN.AUTH_ERROR'), this.translate.instant('LOGIN.SNACKBAR_CLOSE'), {
               duration: 3000,
               panelClass: ['snackbar-error']
             });
@@ -59,18 +64,17 @@ export class LoginComponent {
           })
         )
         .subscribe(response => {
-          response = JSON.parse(response) 
-          console.log("response",response);
+          response = JSON.parse(response);
           if (response && response.message === 'Usuario Autenticado') {
             const token = response.token;
             localStorage.setItem('authToken', token);
             this.router.navigate(['/reports']);
-            this.snackBar.open('Usuario autenticado correctamente', 'Cerrar', {
+            this.snackBar.open(this.translate.instant('LOGIN.AUTH_SUCCESS'), this.translate.instant('LOGIN.SNACKBAR_CLOSE'), {
               duration: 3000,
               panelClass: ['snackbar-success']
             });
           } else {
-            this.snackBar.open('Error de autenticación', 'X', {
+            this.snackBar.open(this.translate.instant('LOGIN.AUTH_ERROR'), 'X', {
               duration: 3000,
               panelClass: ['snackbar-error']
             });

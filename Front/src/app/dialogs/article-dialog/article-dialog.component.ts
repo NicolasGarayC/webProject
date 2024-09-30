@@ -12,6 +12,8 @@ import { Observable } from 'rxjs';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { TranslateService } from '@ngx-translate/core';  // Importar TranslateService
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-article-dialog',
@@ -28,7 +30,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
     MatIconModule,
     MatSelectModule,
     MatRadioModule,
-    MatTableModule
+    MatTableModule,
+    TranslateModule
   ]
 })
 
@@ -45,7 +48,8 @@ export class ArticleDialogComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any,
     private fb: FormBuilder,
     private snackBar: MatSnackBar,
-    private articuloService: ArticuloService
+    private articuloService: ArticuloService,
+    private translate: TranslateService  // Añadir TranslateService aquí
   ) {
     this.compraForm = this.fb.group({
       proveedorId: [data.proveedorId ?? null, Validators.required],
@@ -153,8 +157,10 @@ export class ArticleDialogComponent implements OnInit {
       } else {
         const articuloExistente = this.articulosList.find(articulo => articulo.id === formValue.articuloExistenteId);
         if (!articuloExistente) {
-          this.snackBar.open('El artículo seleccionado no es válido..', 'Cerrar', {
-            duration: 3000
+          this.translate.get('ARTICLE.INVALID_ARTICLE').subscribe((res: string) => {
+            this.snackBar.open(res, this.translate.instant('ARTICLE.CLOSE'), {
+              duration: 3000
+            });
           });
           return;
         }
@@ -194,44 +200,46 @@ export class ArticleDialogComponent implements OnInit {
       });
 
     } else {
-      this.snackBar.open('Por favor, complete todos los campos obligatorios.', 'Cerrar', {
-        duration: 3000
+      this.translate.get('ARTICLE.FILL_REQUIRED_FIELDS').subscribe((res: string) => {
+        this.snackBar.open(res, this.translate.instant('ARTICLE.CLOSE'), {
+          duration: 3000
+        });
       });
     }
   }
 
   guardarCompra(): void {
-    
-      const formValue = this.compraForm.value;
-      if (this.data.isEdit) {
-        const updatedArticulo = {
-          id: this.data.id,
-          nombrearticulo: formValue.nombrearticulo,
-          marca: formValue.marca,
-          modelo: formValue.modelo,
-          color: formValue.color,
-          unidaddemedida: formValue.unidaddemedida,
-          unidadesdisponibles: formValue.unidadesCompradas,
-          valorunitario: formValue.valorUnidad,
+    const formValue = this.compraForm.value;
+    if (this.data.isEdit) {
+      const updatedArticulo = {
+        id: this.data.id,
+        nombrearticulo: formValue.nombrearticulo,
+        marca: formValue.marca,
+        modelo: formValue.modelo,
+        color: formValue.color,
+        unidaddemedida: formValue.unidaddemedida,
+        unidadesdisponibles: formValue.unidadesCompradas,
+        valorunitario: formValue.valorUnidad,
+      };
+      this.dialogRef.close(updatedArticulo);
+    } else {
+      if (this.articulosData.data.length > 0) {
+        const nuevaCompra = {
+          articulosCompra: this.articulosData.data,
+          idProveedor: formValue.proveedorId,
+          idUsuario: 1
         };
-        this.dialogRef.close(updatedArticulo);
+        this.articuloService.registrarCompra(nuevaCompra).subscribe(response => {
+          this.dialogRef.close(response);
+        });
       } else {
-        if (this.articulosData.data.length > 0) {
-          const nuevaCompra = {
-            articulosCompra: this.articulosData.data,
-            idProveedor: formValue.proveedorId,
-            idUsuario: 1
-          };
-          this.articuloService.registrarCompra(nuevaCompra).subscribe(response => {
-            this.dialogRef.close(response);
-          });
-        } else {
-          this.snackBar.open('Por favor, complete todos los campos y agregue al menos un artículo.', 'Cerrar', {
+        this.translate.get('ARTICLE.ADD_AT_LEAST_ONE').subscribe((res: string) => {
+          this.snackBar.open(res, this.translate.instant('ARTICLE.CLOSE'), {
             duration: 3000
           });
-        }
+        });
       }
-
+    }
   }
 
   onCancel(): void {

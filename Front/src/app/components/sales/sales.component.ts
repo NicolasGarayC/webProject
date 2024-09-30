@@ -14,6 +14,9 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
+import { TranslateService } from '@ngx-translate/core';  // Importa TranslateService
+import { TranslateModule } from '@ngx-translate/core';  // Asegúrate de importar el TranslateModule
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @Component({
   selector: 'app-sales',
@@ -29,10 +32,12 @@ import { MatSelectModule } from '@angular/material/select';
     MatButtonModule,
     MatIconModule,
     MatSelectModule,
+    MatProgressSpinnerModule,
     MatRadioModule,
-    MatTableModule
-  ]
+    MatTableModule,
+    TranslateModule
 
+  ]
 })
 export class VentasComponent implements OnInit {
   sales: MatTableDataSource<VentaArticuloDTO> = new MatTableDataSource<VentaArticuloDTO>();
@@ -42,7 +47,8 @@ export class VentasComponent implements OnInit {
   constructor(
     private ventaService: VentaService,
     public dialog: MatDialog,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private translate: TranslateService  // Añade TranslateService aquí
   ) {}
 
   ngOnInit(): void {
@@ -58,7 +64,7 @@ export class VentasComponent implements OnInit {
       },
       error: (error: any) => {
         this.isLoading = false;
-        this.snackBar.open('Error al cargar las ventas.', 'Cerrar', {
+        this.snackBar.open(this.translate.instant('SALES.ERROR_LOAD'), this.translate.instant('SALES.SNACKBAR_CLOSE'), {
           duration: 3000,
         });
         console.error('Error fetching sales', error);
@@ -78,7 +84,7 @@ export class VentasComponent implements OnInit {
             this.loadVentas();
           },
           error: (error) => {
-            this.snackBar.open('Error al revertir la venta.', 'Cerrar', {
+            this.snackBar.open(this.translate.instant('SALES.ERROR_REVERT'), this.translate.instant('SALES.SNACKBAR_CLOSE'), {
               duration: 3000,
             });
             console.error('Error al revertir la venta', error);
@@ -102,7 +108,7 @@ export class VentasComponent implements OnInit {
             this.loadVentas();
           },
           error: (error) => {
-            this.snackBar.open('Error al registrar la venta.', 'Cerrar', {
+            this.snackBar.open(this.translate.instant('SALES.ERROR_REGISTER'), this.translate.instant('SALES.SNACKBAR_CLOSE'), {
               duration: 3000,
             });
             console.error('Error al registrar la venta', error);
@@ -125,8 +131,8 @@ export class VentasComponent implements OnInit {
           next: () => {
             this.loadVentas();
           },
-          error: (error:any) => {
-            this.snackBar.open('Error al actualizar la venta.', 'Cerrar', {
+          error: (error: any) => {
+            this.snackBar.open(this.translate.instant('SALES.ERROR_UPDATE'), this.translate.instant('SALES.SNACKBAR_CLOSE'), {
               duration: 3000,
             });
             console.error('Error al actualizar la venta', error);

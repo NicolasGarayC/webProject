@@ -1,18 +1,129 @@
 {
-    "APP_TITLE": "InvenTrack",
-    "MENU": {
-      "REPORTS": "Reportes",
-      "MANAGE_INVENTORY": "Gestionar Inventario",
-      "MANAGE_PRODUCTS": "Gestionar Productos",
-      "MANAGE_PROVIDERS": "Gestionar Proveedores",
-      "MANAGE_SALES": "Gestionar Ventas",
-      "MANAGE_USERS": "Gestionar Usuarios",
-      "SETTINGS": "Configuración",
-      "LOGOUT": "Cerrar Sesión",
-      "LANGUAGES": {
-        "ENGLISH": "Inglés",
-        "SPANISH": "Español"
-      }
+  "APP_TITLE": "InvenTrack",
+  "MENU": {
+    "REPORTS": "Reportes",
+    "MANAGE_INVENTORY": "Gestionar Inventario",
+    "MANAGE_PRODUCTS": "Gestionar Productos",
+    "MANAGE_PROVIDERS": "Gestionar Proveedores",
+    "MANAGE_SALES": "Gestionar Ventas",
+    "MANAGE_USERS": "Gestionar Usuarios",
+    "SETTINGS": "Configuración",
+    "LOGOUT": "Cerrar Sesión",
+    "LANGUAGES": {
+      "ENGLISH": "Inglés",
+      "SPANISH": "Español"
     }
+  },
+  "ARTICLES": {
+    "MANAGE_ARTICLES": "Administrar Artículos",
+    "NAME": "Nombre",
+    "BRAND": "Marca",
+    "MODEL": "Modelo",
+    "COLOR": "Color",
+    "MEASUREMENT_UNIT": "Unidad de Medida",
+    "AVAILABLE_UNITS": "Unidades Disponibles",
+    "UNIT_PRICE": "Valor Unitario",
+    "ACTIONS": "Acciones",
+    "ADD_ARTICLE": "Agregar Artículo",
+    "EDIT": "Editar",
+    "DELETE": "Eliminar",
+    "LOADING": "Cargando artículos..."
+  },
+  "LOGIN": {
+    "TITLE": "Iniciar sesión",
+    "EMAIL_PLACEHOLDER": "Correo electrónico",
+    "EMAIL_ERROR": "Por favor ingrese un correo válido.",
+    "PASSWORD_PLACEHOLDER": "Contraseña",
+    "PASSWORD_ERROR": "La contraseña es obligatoria.",
+    "SUBMIT_BUTTON": "Iniciar sesión",
+    "AUTH_SUCCESS": "Usuario autenticado correctamente",
+    "AUTH_ERROR": "Error en la autenticación",
+    "SNACKBAR_CLOSE": "Cerrar"
+  },
+  "SALES": {
+    "TITLE": "Gestión de Ventas",
+    "ADD_SALE": "Registrar Nueva Venta",
+    "ID": "ID",
+    "DATE": "Fecha",
+    "TOTAL": "Total",
+    "ACTIONS": "Acciones",
+    "EDIT": "Editar",
+    "DELETE": "Eliminar",
+    "SNACKBAR_CLOSE": "Cerrar",
+    "ERROR_LOAD": "Error al cargar las ventas.",
+    "ERROR_REVERT": "Error al revertir la venta.",
+    "ERROR_REGISTER": "Error al registrar la venta.",
+    "ERROR_UPDATE": "Error al actualizar la venta."
+  },
+  "USERS": {
+    "MANAGE_USERS": "Administrar Usuarios",
+    "EMAIL": "Correo",
+    "NAME": "Nombre",
+    "ROLE": "Rol",
+    "STATUS": "Estado",
+    "ACTIONS": "Acciones",
+    "EDIT": "Editar",
+    "DELETE": "Eliminar",
+    "ADD_USER": "Agregar Usuario",
+    "SNACKBAR_CLOSE": "Cerrar",
+    "ERROR_LOAD": "Error al cargar los usuarios.",
+    "ERROR_DELETE": "Error al eliminar el usuario.",
+    "ERROR_UPDATE": "Error al actualizar el usuario.",
+    "SUCCESS_UPDATE": "Usuario actualizado con éxito.",
+    "SUCCESS_ADD": "Usuario agregado con éxito."
+  },
+  "ARTICLE": {
+    "EDIT_ARTICLE": "Editar Artículo",
+    "NEW_PURCHASE": "Registrar Nueva Compra",
+    "SUPPLIER": "Proveedor",
+    "NEW_ARTICLE": "Nuevo Artículo",
+    "EXISTING_ARTICLE": "Artículo Existente",
+    "ARTICLE_NAME": "Nombre del Artículo",
+    "BRAND": "Marca",
+    "MODEL": "Modelo",
+    "COLOR": "Color",
+    "UNIT_MEASURE": "Unidad de Medida",
+    "EXISTING_ARTICLE_SELECT": "Seleccionar Artículo Existente",
+    "UNITS_PURCHASED": "Unidades Compradas",
+    "UNIT_PRICE": "Valor por Unidad",
+    "ACCEPT": "Aceptar",
+    "SAVE_CHANGES": "Guardar Cambios",
+    "SAVE_PURCHASE": "Guardar Compra",
+    "INVALID_ARTICLE": "El artículo seleccionado no es válido.",
+    "FILL_REQUIRED_FIELDS": "Por favor, complete todos los campos obligatorios.",
+    "CLOSE": "Cerrar",
+    "ADD_AT_LEAST_ONE": "Por favor, agregue al menos un artículo."
+  },
+  "CONFIRM_DIALOG": {
+    "TITLE": "Confirmar Eliminación",
+    "MESSAGE": "¿Estás seguro de que deseas eliminar este artículo?",
+    "CANCEL": "Cancelar",
+    "DELETE": "Eliminar"
+  },
+  "VENTA_DIALOG": {
+    "TITLE_ADD": "Registrar Nueva Venta",
+    "TITLE_EDIT": "Editar Venta",
+    "ARTICLE": "Artículo",
+    "QUANTITY": "Cantidad Vendida",
+    "UNIT_PRICE": "Valor Unitario",
+    "ADD_ARTICLE": "Agregar Artículo",
+    "SAVE_CHANGES": "Guardar Cambios",
+    "REGISTER_SALE": "Registrar Venta",
+    "INVALID_ARTICLE": "El artículo seleccionado no es válido.",
+    "FILL_FIELDS": "Por favor, complete todos los campos obligatorios.",
+    "ADD_ARTICLE_MESSAGE": "Por favor, agregue al menos un artículo a la venta."
+  },
+  "USER_DIALOG": {
+    "TITLE_EDIT": "Editar Usuario",
+    "TITLE_ADD": "Nuevo Usuario",
+    "EMAIL": "Correo",
+    "PASSWORD": "Contraseña",
+    "NAME": "Nombre",
+    "NAME_PLACEHOLDER": "Nombre completo",
+    "ID_NUMBER": "Cédula",
+    "ID_PLACEHOLDER": "1234567890",
+    "ROLE": "Rol",
+    "CANCEL": "Cancelar",
+    "SAVE": "Guardar"
   }
-  
+}

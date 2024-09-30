@@ -10,6 +10,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { CommonModule } from '@angular/common';
+import { TranslateService } from '@ngx-translate/core';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-usuarios',
@@ -20,12 +22,11 @@ import { CommonModule } from '@angular/common';
     MatIconModule,
     MatProgressSpinnerModule,
     CommonModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    TranslateModule
   ],
-  
   styleUrl: './usuarios.component.css'
 })
-
 export class UsuariosComponent implements OnInit {
   usuarios: MatTableDataSource<Usuario> = new MatTableDataSource<Usuario>();
   displayedColumns: string[] = ['correo', 'nombre', 'rol','estado', 'acciones'];
@@ -34,7 +35,8 @@ export class UsuariosComponent implements OnInit {
   constructor(
     private usuarioService: UsuarioService,
     public dialog: MatDialog,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private translate: TranslateService // Agregar TranslateService
   ) { }
 
   ngOnInit(): void {
@@ -44,12 +46,15 @@ export class UsuariosComponent implements OnInit {
   loadUsuarios(): void {
     this.isLoading = true;
     this.usuarioService.getUsuarios().subscribe({
-      next: (data:any) => {
+      next: (data: any) => {
         this.usuarios.data = data;
         this.isLoading = false;
       },
-      error: (error:any) => {
+      error: (error: any) => {
         this.isLoading = false;
+        this.snackBar.open(this.translate.instant('USERS.ERROR_LOAD'), this.translate.instant('USERS.SNACKBAR_CLOSE'), {
+          duration: 3000,
+        });
         console.error('Error fetching usuarios', error);
       }
     });
@@ -63,8 +68,18 @@ export class UsuariosComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         this.usuarioService.deleteUsuario(id).subscribe({
-          next: () => this.loadUsuarios(),
-          error: (error:any) => console.error('Error al eliminar el usuario', error)
+          next: () => {
+            this.loadUsuarios();
+            this.snackBar.open(this.translate.instant('USERS.SUCCESS_UPDATE'), this.translate.instant('USERS.SNACKBAR_CLOSE'), {
+              duration: 3000,
+            });
+          },
+          error: (error: any) => {
+            this.snackBar.open(this.translate.instant('USERS.ERROR_DELETE'), this.translate.instant('USERS.SNACKBAR_CLOSE'), {
+              duration: 3000,
+            });
+            console.error('Error al eliminar el usuario', error);
+          }
         });
       }
     });
@@ -81,11 +96,14 @@ export class UsuariosComponent implements OnInit {
         this.usuarioService.updateUsuario(result).subscribe({
           next: () => {
             this.loadUsuarios();
-            this.snackBar.open('Usuario actualizado', 'Cerrar', {
+            this.snackBar.open(this.translate.instant('USERS.SUCCESS_UPDATE'), this.translate.instant('USERS.SNACKBAR_CLOSE'), {
               duration: 3000
             });
           },
           error: (error) => {
+            this.snackBar.open(this.translate.instant('USERS.ERROR_UPDATE'), this.translate.instant('USERS.SNACKBAR_CLOSE'), {
+              duration: 3000
+            });
             console.error('Error al actualizar el usuario', error);
           }
         });
@@ -114,5 +132,5 @@ export class UsuariosComponent implements OnInit {
         this.loadUsuarios();
       }
     });
-  }  
+  }
 }

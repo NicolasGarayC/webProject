@@ -2,7 +2,7 @@
   <button mat-icon-button (click)="onCancel()">
     <mat-icon>arrow_back</mat-icon>
   </button>
-  <span class="dialog-title">{{ data.isEdit ? 'Editar Artículo' : 'Registrar Nueva Compra' }}</span>
+  <span class="dialog-title">{{ data.isEdit ? ('ARTICLE.EDIT_ARTICLE' | translate) : ('ARTICLE.NEW_PURCHASE' | translate) }}</span>
 </div>
 
 <div mat-dialog-content>
@@ -10,7 +10,7 @@
 
     <!-- Campo de proveedor, solo si no es edición -->
     <mat-form-field *ngIf="!data.isEdit" class="full-width" appearance="fill">
-      <mat-label>Proveedor</mat-label>
+      <mat-label>{{ 'ARTICLE.SUPPLIER' | translate }}</mat-label>
       <mat-select formControlName="proveedorId">
         <mat-option *ngFor="let proveedor of proveedores$ | async" [value]="proveedor.id">
           {{ proveedor.nombre }}
@@ -20,8 +20,8 @@
 
     <!-- Radio buttons para seleccionar entre nuevo artículo o artículo existente -->
     <mat-radio-group *ngIf="!data.isEdit" formControlName="nuevoArticulo" class="radio-group">
-      <mat-radio-button [value]="true">Nuevo Artículo</mat-radio-button>
-      <mat-radio-button [value]="false">Artículo Existente</mat-radio-button>
+      <mat-radio-button [value]="true">{{ 'ARTICLE.NEW_ARTICLE' | translate }}</mat-radio-button>
+      <mat-radio-button [value]="false">{{ 'ARTICLE.EXISTING_ARTICLE' | translate }}</mat-radio-button>
     </mat-radio-group>
 
     <!-- Mostrar los campos de artículo -->
@@ -29,27 +29,27 @@
       <!-- Si es nuevo artículo o estamos en edición -->
       <div *ngIf="compraForm.get('nuevoArticulo')?.value === true || data.isEdit">
         <mat-form-field class="full-width" appearance="fill">
-          <mat-label>Nombre del artículo</mat-label>
+          <mat-label>{{ 'ARTICLE.ARTICLE_NAME' | translate }}</mat-label>
           <input matInput formControlName="nombrearticulo">
         </mat-form-field>
 
         <mat-form-field class="full-width" appearance="fill">
-          <mat-label>Marca</mat-label>
+          <mat-label>{{ 'ARTICLE.BRAND' | translate }}</mat-label>
           <input matInput formControlName="marca">
         </mat-form-field>
 
         <mat-form-field class="full-width" appearance="fill">
-          <mat-label>Modelo</mat-label>
+          <mat-label>{{ 'ARTICLE.MODEL' | translate }}</mat-label>
           <input matInput formControlName="modelo">
         </mat-form-field>
 
         <mat-form-field class="full-width" appearance="fill">
-          <mat-label>Color</mat-label>
+          <mat-label>{{ 'ARTICLE.COLOR' | translate }}</mat-label>
           <input matInput formControlName="color">
         </mat-form-field>
 
         <mat-form-field class="full-width" appearance="fill">
-          <mat-label>Unidad de Medida</mat-label>
+          <mat-label>{{ 'ARTICLE.UNIT_MEASURE' | translate }}</mat-label>
           <input matInput formControlName="unidaddemedida">
         </mat-form-field>
       </div>
@@ -57,7 +57,7 @@
       <!-- Si es artículo existente -->
       <div *ngIf="compraForm.get('nuevoArticulo')?.value === false && !data.isEdit">
         <mat-form-field class="full-width" appearance="fill">
-          <mat-label>Artículo Existente</mat-label>
+          <mat-label>{{ 'ARTICLE.EXISTING_ARTICLE_SELECT' | translate }}</mat-label>
           <mat-select formControlName="articuloExistenteId">
             <mat-option *ngFor="let articulo of articulos$ | async" [value]="articulo.id">
               {{ articulo.nombrearticulo }} ({{ articulo.marca }} - {{ articulo.modelo }})
@@ -69,47 +69,49 @@
 
     <!-- Unidades y Valor Unitario -->
     <mat-form-field class="full-width" appearance="fill">
-      <mat-label>Unidades Compradas</mat-label>
+      <mat-label>{{ 'ARTICLE.UNITS_PURCHASED' | translate }}</mat-label>
       <input matInput type="number" formControlName="unidadesCompradas">
     </mat-form-field>
 
     <mat-form-field class="full-width" appearance="fill">
-      <mat-label>Valor por Unidad</mat-label>
+      <mat-label>{{ 'ARTICLE.UNIT_PRICE' | translate }}</mat-label>
       <input matInput type="number" formControlName="valorUnidad">
     </mat-form-field>
 
     <!-- Botón Aceptar -->
-    <button *ngIf="!data.isEdit" mat-raised-button color="primary" class="btn-aceptar full-width" (click)="aceptarArticulo()">Aceptar</button>
+    <button *ngIf="!data.isEdit" mat-raised-button color="primary" class="btn-aceptar full-width" (click)="aceptarArticulo()">
+      {{ 'ARTICLE.ACCEPT' | translate }}
+    </button>
 
     <!-- Tabla para mostrar los artículos agregados -->
     <table *ngIf="!data.isEdit" mat-table [dataSource]="articulosData" class="mat-elevation-z8">
       <ng-container matColumnDef="nombrearticulo">
-        <th mat-header-cell *matHeaderCellDef> Nombre del Artículo </th>
+        <th mat-header-cell *matHeaderCellDef> {{ 'ARTICLE.ARTICLE_NAME' | translate }} </th>
         <td mat-cell *matCellDef="let elemento"> {{ elemento.articulo.nombrearticulo }} </td>
       </ng-container>
 
       <ng-container matColumnDef="marca">
-        <th mat-header-cell *matHeaderCellDef> Marca </th>
+        <th mat-header-cell *matHeaderCellDef> {{ 'ARTICLE.BRAND' | translate }} </th>
         <td mat-cell *matCellDef="let elemento"> {{ elemento.articulo.marca }} </td>
       </ng-container>
 
       <ng-container matColumnDef="modelo">
-        <th mat-header-cell *matHeaderCellDef> Modelo </th>
+        <th mat-header-cell *matHeaderCellDef> {{ 'ARTICLE.MODEL' | translate }} </th>
         <td mat-cell *matCellDef="let elemento"> {{ elemento.articulo.modelo }} </td>
       </ng-container>
 
       <ng-container matColumnDef="unidaddemedida">
-        <th mat-header-cell *matHeaderCellDef> Unidad de Medida </th>
+        <th mat-header-cell *matHeaderCellDef> {{ 'ARTICLE.UNIT_MEASURE' | translate }} </th>
         <td mat-cell *matCellDef="let elemento"> {{ elemento.articulo.unidaddemedida }} </td>
       </ng-container>
 
       <ng-container matColumnDef="unidadesCompradas">
-        <th mat-header-cell *matHeaderCellDef> Unidades Compradas </th>
+        <th mat-header-cell *matHeaderCellDef> {{ 'ARTICLE.UNITS_PURCHASED' | translate }} </th>
         <td mat-cell *matCellDef="let elemento"> {{ elemento.unidadesCompradas }} </td>
       </ng-container>
 
       <ng-container matColumnDef="valorUnidad">
-        <th mat-header-cell *matHeaderCellDef> Valor Unidad </th>
+        <th mat-header-cell *matHeaderCellDef> {{ 'ARTICLE.UNIT_PRICE' | translate }} </th>
         <td mat-cell *matCellDef="let elemento"> {{ elemento.valorUnidad }} </td>
       </ng-container>
 
@@ -119,7 +121,7 @@
 
     <!-- Botón para enviar la petición de almacenamiento -->
     <button mat-raised-button color="primary" class="full-width" (click)="guardarCompra()">
-      {{ data.isEdit ? 'Guardar Cambios' : 'Guardar Compra' }}
+      {{ data.isEdit ? ('ARTICLE.SAVE_CHANGES' | translate) : ('ARTICLE.SAVE_PURCHASE' | translate) }}
     </button>
   </form>
 </div>

@@ -10,6 +10,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { ArticleDialogComponent } from '../../dialogs/article-dialog/article-dialog.component';
 import { ConfirmDialogComponent } from '../../dialogs/confirmation-dialog/confirmation-dialog.component';
+import { TranslateModule } from '@ngx-translate/core';  // Asegúrate de importar el TranslateModule
 
 @Component({
   selector: 'app-articles',
@@ -21,7 +22,8 @@ import { ConfirmDialogComponent } from '../../dialogs/confirmation-dialog/confir
     MatIconModule,
     MatProgressSpinnerModule,
     CommonModule,
-    MatSnackBarModule // Importar MatSnackBarModule aquí
+    MatSnackBarModule,
+    TranslateModule,  // Añadir el TranslateModule aquí
   ],
   styleUrls: ['./articles.component.css']
 })
@@ -42,7 +44,7 @@ export class ArticlesComponent implements OnInit {
   constructor(
     private articlesService: ArticuloService,
     public dialog: MatDialog,
-    private snackBar: MatSnackBar // Añadir MatSnackBar aquí
+    private snackBar: MatSnackBar
   ) { }
 
   ngOnInit(): void {
@@ -53,8 +55,6 @@ export class ArticlesComponent implements OnInit {
     this.isLoading = true;
     this.articlesService.getArticulos().subscribe({
       next: (data) => {
-        console.log(data);
-        
         this.articulos.data = data;
         this.isLoading = false;
       },
@@ -74,10 +74,10 @@ export class ArticlesComponent implements OnInit {
       if (result) {
         this.articlesService.deleteArticulo(id).subscribe({
           next: () => {
-            this.loadArticulos(); // Recarga los artículos después de eliminar
+            this.loadArticulos();
           },
           error: (error) => {
-            this.loadArticulos(); // Recarga los artículos después de añadir
+            this.loadArticulos();
             console.error('Error al eliminar el artículo', error);
           }
         });
@@ -95,13 +95,13 @@ export class ArticlesComponent implements OnInit {
       if (result) {
         this.articlesService.updateArticulo(result).subscribe({
           next: () => {
-            this.loadArticulos(); // Recarga los artículos después de editar
+            this.loadArticulos();
             this.snackBar.open('Componente actualizado con exito.', 'Cerrar', {
               duration: 3000
             });
           },
           error: (error) => {
-            this.loadArticulos(); // Recarga los artículos después de añadir
+            this.loadArticulos();
             console.error('Error al actualizar el artículo', error);
           }
         });
@@ -129,12 +129,12 @@ export class ArticlesComponent implements OnInit {
       if (result) {
         this.articlesService.addArticulo(result).subscribe({
           next: (res) => {
-            if(res){
-              this.loadArticulos(); 
+            if (res) {
+              this.loadArticulos();
             }
           },
           error: (error) => {
-            this.loadArticulos(); 
+            this.loadArticulos();
             console.error('Error al añadir el artículo', error);
           }
         });

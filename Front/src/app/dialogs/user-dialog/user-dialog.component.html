@@ -1,49 +1,46 @@
-
-<h1 mat-dialog-title>{{ data.isEdit ? 'Editar Usuario' : 'Nuevo Usuario' }}</h1>
+<h1 mat-dialog-title>{{ dialogTitle | translate }}</h1>
 <div *ngIf="isLoading" class="mat-spinner-container">
   <mat-spinner></mat-spinner>
 </div>
 <div mat-dialog-content>
   <form [formGroup]="usuarioForm">
-
     <!-- Correo -->
     <mat-form-field appearance="fill">
-      <mat-label>Correo</mat-label>
+      <mat-label>{{ 'USER_DIALOG.EMAIL' | translate }}</mat-label>
       <input matInput formControlName="correo" placeholder="example@mail.com">
     </mat-form-field>
 
     <!-- Contraseña -->
     <mat-form-field appearance="fill">
-      <mat-label>Contraseña</mat-label>
+      <mat-label>{{ 'USER_DIALOG.PASSWORD' | translate }}</mat-label>
       <input matInput type="password" formControlName="passwd" placeholder="********">
     </mat-form-field>
 
     <!-- Nombre -->
     <mat-form-field appearance="fill">
-      <mat-label>Nombre</mat-label>
-      <input matInput formControlName="nombre" placeholder="Nombre completo">
+      <mat-label>{{ 'USER_DIALOG.NAME' | translate }}</mat-label>
+      <input matInput formControlName="nombre" placeholder="{{ 'USER_DIALOG.NAME_PLACEHOLDER' | translate }}">
     </mat-form-field>
 
     <!-- Cédula -->
     <mat-form-field appearance="fill">
-      <mat-label>Cédula</mat-label>
-      <input matInput type="number" formControlName="cedula" placeholder="1234567890">
+      <mat-label>{{ 'USER_DIALOG.ID_NUMBER' | translate }}</mat-label>
+      <input matInput type="number" formControlName="cedula" placeholder="{{ 'USER_DIALOG.ID_PLACEHOLDER' | translate }}">
     </mat-form-field>
 
     <!-- Rol -->
     <mat-form-field appearance="fill">
-      <mat-label>Rol</mat-label>
+      <mat-label>{{ 'USER_DIALOG.ROLE' | translate }}</mat-label>
       <mat-select formControlName="rol">
         <mat-option *ngFor="let role of roles" [value]="role">{{ role }}</mat-option>
       </mat-select>
     </mat-form-field>
-
   </form>
 </div>
 
 <div mat-dialog-actions class="action-buttons">
-  <button mat-raised-button class="action-button red" (click)="onCancel()">Cancelar</button>
-  <button mat-raised-button class="action-button" [ngClass]="{'blue': usuarioForm.valid}" color="primary" [disabled]="!usuarioForm.valid" (click)="onSave()">Guardar</button>
-
-
+  <button mat-raised-button class="action-button red" (click)="onCancel()">{{ 'USER_DIALOG.CANCEL' | translate }}</button>
+  <button mat-raised-button class="action-button" [ngClass]="{'blue': usuarioForm.valid}" color="primary" [disabled]="!usuarioForm.valid" (click)="onSave()">
+    {{ 'USER_DIALOG.SAVE' | translate }}
+  </button>
 </div>

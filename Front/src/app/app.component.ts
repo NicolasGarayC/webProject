@@ -36,14 +36,23 @@ export class AppComponent implements OnInit {
       map((event: NavigationEnd) => event.urlAfterRedirects !== '/login')
     );
     // Set default language
-    this.translate.setDefaultLang('en');
+    const browserLang = this.translate.getBrowserLang() ?? 'en';
+    this.translate.setDefaultLang(browserLang.match(/en|es/) ? browserLang : 'en');
+    
+
   }
 
   switchLanguage(language: string) {
     this.translate.use(language);
+    localStorage.setItem('selectedLanguage', language); // Guardar el idioma seleccionado en el localStorage
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    const savedLanguage = localStorage.getItem('selectedLanguage');
+    if (savedLanguage) {
+      this.translate.use(savedLanguage);
+    }
+  }
 
   logout() {
     this.service.logout();

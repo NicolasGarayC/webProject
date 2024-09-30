@@ -12,6 +12,9 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
+import { TranslateService } from '@ngx-translate/core'; // Importar TranslateService
+
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-venta-dialog',
@@ -22,6 +25,7 @@ import { MatSelectModule } from '@angular/material/select';
     CommonModule,
     ReactiveFormsModule,
     MatDialogModule,
+    TranslateModule,
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
@@ -30,14 +34,20 @@ import { MatSelectModule } from '@angular/material/select';
     MatRadioModule,
     MatTableModule
   ]
-
 })
 export class VentaDialogComponent implements OnInit {
   ventaForm: FormGroup;
   articulos$: Observable<any[]>;
   articulosList: any[] = [];
   articulosData = new MatTableDataSource<any>([]);
-  displayedColumns: string[] = ['nombrearticulo', 'marca', 'modelo', 'unidaddemedida', 'cantidadVendida', 'valorUnitario'];
+  displayedColumns: string[] = [
+    'nombrearticulo', 
+    'marca', 
+    'modelo', 
+    'unidaddemedida', 
+    'cantidadVendida', 
+    'valorUnitario'
+  ];
   isEdit: boolean;
 
   constructor(
@@ -45,7 +55,8 @@ export class VentaDialogComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any,
     private fb: FormBuilder,
     private ventaService: VentaService,
-    private articuloService: ArticuloService
+    private articuloService: ArticuloService,
+    private translate: TranslateService  // Añadir TranslateService
   ) {
     this.isEdit = data.isEdit;
     this.ventaForm = this.fb.group({
@@ -55,7 +66,7 @@ export class VentaDialogComponent implements OnInit {
     });
 
     if (this.isEdit) {
-      // Populate form if editing
+      // Poblar la tabla si es edición
       this.articulosData.data = data.articulos;
     }
 
@@ -74,7 +85,7 @@ export class VentaDialogComponent implements OnInit {
       const articulo = this.articulosList.find((art) => art.id === formValue.articuloId);
 
       if (!articulo) {
-        alert('Artículo seleccionado no es válido.');
+        alert(this.translate.instant('VENTA_DIALOG.INVALID_ARTICLE')); // Mensaje traducido
         return;
       }
 
@@ -93,20 +104,20 @@ export class VentaDialogComponent implements OnInit {
 
       this.articulosData.data = [...this.articulosData.data, nuevoArticulo];
 
-      // Reset form fields
+      // Reiniciar el formulario
       this.ventaForm.reset({
         articuloId: null,
         cantidadVendida: 0,
         valorUnitario: 0,
       });
     } else {
-      alert('Por favor, complete todos los campos obligatorios.');
+      alert(this.translate.instant('VENTA_DIALOG.FILL_FIELDS')); // Mensaje traducido
     }
   }
 
   guardarVenta(): void {
     if (this.isEdit) {
-      // Prepare data for updating
+      // Preparar datos para actualizar
       const updatedVenta = {
         id: this.data.id,
         fecha: this.data.fecha,
@@ -118,11 +129,11 @@ export class VentaDialogComponent implements OnInit {
       if (this.articulosData.data.length > 0) {
         const nuevaVenta = {
           articulos: this.articulosData.data,
-          idUsuario: 1, // Replace with actual user ID
+          idUsuario: 1, // Reemplazar con el ID de usuario real
         };
         this.dialogRef.close(nuevaVenta);
       } else {
-        alert('Por favor, agregue al menos un artículo a la venta.');
+        alert(this.translate.instant('VENTA_DIALOG.ADD_ARTICLE')); // Mensaje traducido
       }
     }
   }
