@@ -1,6 +1,29 @@
-.chart-container{
-    min-width: 600px;
-    max-width: 600px;
-    min-height: 400px;
-    max-height: 400px;
-}
+/* Estilos para el contenedor de gráficos usando CSS Grid */
+.chart-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Coloca un mínimo de 300px y ajusta las columnas */
+    gap: 20px; /* Espacio entre los gráficos */
+    margin: 20px;
+    justify-items: center;
+  }
+  
+  /* Estilo de cada gráfico */
+  .chart-container {
+    width: 100%;
+    max-width: 500px; /* Ajusta el tamaño máximo de los gráficos */
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    padding: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Ajusta los gráficos para que sean responsivos */
+  canvas {
+    width: 100% !important;
+    height: auto !important;
+  }
+  

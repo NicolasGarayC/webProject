@@ -61,7 +61,8 @@
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
   </table>
-  <button mat-fab color="primary" class="fab-button" (click)="addArticulo()">
-    <mat-icon>add</mat-icon> {{ 'ARTICLES.ADD_ARTICLE' | translate }}
+  <button mat-fab color="primary" class="fab-button" (click)="addArticulo()" matTooltip="{{ 'ARTICLES.ADD_ARTICLE' | translate }}">
+    <mat-icon>add</mat-icon>
   </button>
+  
 </div>

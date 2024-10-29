@@ -1,14 +1,20 @@
+<header>
+</header>
 <div class="login-container">
   <form (ngSubmit)="onSubmit()" [formGroup]="loginForm" class="login-form">
-    <h2>{{ 'LOGIN.TITLE' | translate }}</h2>
+    <h1>{{ 'LOGIN.TITLE' | translate }}</h1> <!-- Título principal de la página -->
+    <!-- Campos de correo y contraseña (para login manual si lo deseas) -->
     <mat-form-field appearance="fill">
-      <input matInput placeholder="{{ 'LOGIN.EMAIL_PLACEHOLDER' | translate }}" formControlName="correo" type="email" required>
+      <mat-label>{{ 'LOGIN.EMAIL_PLACEHOLDER' | translate }}</mat-label>
+      <input matInput formControlName="correo" type="email" required>
       <mat-error *ngIf="loginForm.controls['correo'].invalid && loginForm.controls['correo'].touched">
         {{ 'LOGIN.EMAIL_ERROR' | translate }}
       </mat-error>
     </mat-form-field>
+
     <mat-form-field appearance="fill">
-      <input matInput [type]="hide ? 'password' : 'text'" placeholder="{{ 'LOGIN.PASSWORD_PLACEHOLDER' | translate }}" formControlName="passwd" required>
+      <mat-label>{{ 'LOGIN.PASSWORD_PLACEHOLDER' | translate }}</mat-label>
+      <input matInput [type]="hide ? 'password' : 'text'" formControlName="passwd" required>
       <button mat-icon-button matSuffix (click)="hide = !hide" type="button">
         <mat-icon>{{ hide ? 'visibility_off' : 'visibility' }}</mat-icon>
       </button>
@@ -16,6 +22,17 @@
         {{ 'LOGIN.PASSWORD_ERROR' | translate }}
       </mat-error>
     </mat-form-field>
-    <button mat-raised-button color="primary" type="submit" [disabled]="loginForm.invalid">{{ 'LOGIN.SUBMIT_BUTTON' | translate }}</button>
+
+    <button mat-raised-button color="primary" type="submit" [disabled]="loginForm.invalid">
+      {{ 'LOGIN.SUBMIT_BUTTON' | translate }}
+    </button>
+
+    <!-- Login con Google -->
+    <button mat-button (click)="loginWithGoogle()" class="google-button">
+      <img src="assets/icons/google-logo.svg" alt="Google Logo" class="google-icon">
+      <span class="google-text">Sign in with Google</span>
+    </button>  
   </form>
 </div>
+<footer>
+</footer>

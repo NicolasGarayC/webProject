@@ -11,6 +11,7 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { ArticleDialogComponent } from '../../dialogs/article-dialog/article-dialog.component';
 import { ConfirmDialogComponent } from '../../dialogs/confirmation-dialog/confirmation-dialog.component';
 import { TranslateModule } from '@ngx-translate/core';  // Asegúrate de importar el TranslateModule
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-articles',
@@ -20,6 +21,7 @@ import { TranslateModule } from '@ngx-translate/core';  // Asegúrate de importa
     MatTableModule,
     MatButtonModule,
     MatIconModule,
+    MatTooltipModule,
     MatProgressSpinnerModule,
     CommonModule,
     MatSnackBarModule,

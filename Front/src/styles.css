@@ -1,12 +1,9 @@
-/* You can add global styles to this file, and also import other style files */
 .snackbar-success {
     background-color: #4caf50;
-    /* Verde */
     color: white;
 }
 
 .snackbar-error {
     background-color: #f44336;
-    /* Rojo */
     color: white;
 }

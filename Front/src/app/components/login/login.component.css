@@ -14,7 +14,7 @@
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   }
   
-  h2 {
+  h1 {
     text-align: center;
     margin-bottom: 20px;
   }
@@ -46,4 +46,21 @@
     padding-right: 48px; /* Ajusta este valor según el tamaño de los íconos */
     padding: 1px;
 }
-  
+
+
+.google-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.google-icon {
+  width: 24px;
+  height: 24px;
+  margin-right: 8px;
+}
+
+.google-text {
+  font-size: 16px;
+  color: #000000;
+}

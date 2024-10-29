@@ -17,6 +17,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { TranslateService } from '@ngx-translate/core';  // Importa TranslateService
 import { TranslateModule } from '@ngx-translate/core';  // Asegúrate de importar el TranslateModule
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-sales',
@@ -29,6 +30,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     MatDialogModule,
     MatFormFieldModule,
     MatInputModule,
+    MatTooltipModule,
     MatButtonModule,
     MatIconModule,
     MatSelectModule,
@@ -59,10 +61,7 @@ export class VentasComponent implements OnInit {
     this.isLoading = true;
     this.ventaService.getVentas().subscribe({
       next: (data: any) => {
-        console.log("data",data);
-        
         this.sales.data = data;
-        console.log("this.sales.data",this.sales.data);
         this.isLoading = false;
       },
       error: (error: any) => {

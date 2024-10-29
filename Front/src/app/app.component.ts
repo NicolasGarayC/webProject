@@ -38,8 +38,6 @@ export class AppComponent implements OnInit {
     // Set default language
     const browserLang = this.translate.getBrowserLang() ?? 'en';
     this.translate.setDefaultLang(browserLang.match(/en|es/) ? browserLang : 'en');
-    
-
   }
 
   switchLanguage(language: string) {

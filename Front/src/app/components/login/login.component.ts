@@ -11,9 +11,10 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { MatSidenavModule } from '@angular/material/sidenav';
-import { TranslateService } from '@ngx-translate/core';  // Importa TranslateService
-import { TranslateModule } from '@ngx-translate/core';  // Asegúrate de importar el TranslateModule
-
+import { TranslateService } from '@ngx-translate/core';
+import { TranslateModule } from '@ngx-translate/core';
+import { signInWithPopup, GoogleAuthProvider, GithubAuthProvider } from 'firebase/auth';
+import { auth } from '../../shared/firebase.config';
 @Component({
   selector: 'app-login',
   standalone: true,
@@ -27,7 +28,7 @@ import { TranslateModule } from '@ngx-translate/core';  // Asegúrate de importa
     MatSnackBarModule,
     CommonModule,
     MatSidenavModule,
-    TranslateModule,  // Añadir el TranslateModule aquí
+    TranslateModule
 
   ],
   templateUrl: './login.component.html',
@@ -42,14 +43,14 @@ export class LoginComponent {
     private loginService: LoginService,
     private snackBar: MatSnackBar,
     private router: Router,
-    private translate: TranslateService  // Añade el servicio de traducción
+    private translate: TranslateService
   ) {
     this.loginForm = this.fb.group({
       correo: ['', [Validators.required, Validators.email]],
       passwd: ['', Validators.required]
     });
   }
-  
+
   onSubmit(): void {
     if (this.loginForm.valid) {
       this.loginService.login(this.loginForm.value.correo, this.loginForm.value.passwd)
@@ -82,5 +83,27 @@ export class LoginComponent {
           console.log('Respuesta del servidor:', response);
         });
     }
-  }  
+  }
+
+  // Método para autenticarse con Google
+  loginWithGoogle() {
+    const provider = new GoogleAuthProvider();
+    signInWithPopup(auth, provider)
+      .then((result) => {
+        result.user.getIdToken().then((token) => {
+          localStorage.setItem('authToken', token);
+          this.router.navigate(['/reports']);
+          this.snackBar.open(this.translate.instant('LOGIN.AUTH_SUCCESS'), this.translate.instant('LOGIN.SNACKBAR_CLOSE'), {
+            duration: 3000,
+            panelClass: ['snackbar-success']
+          });
+        });
+      })
+      .catch((error) => {
+        this.snackBar.open(this.translate.instant('LOGIN.AUTH_ERROR'), 'X', {
+          duration: 3000,
+          panelClass: ['snackbar-error']
+        });
+      });
+  }
 }

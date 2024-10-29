@@ -1,8 +1,8 @@
 <mat-spinner *ngIf="isLoading"></mat-spinner>
 <div *ngIf="!isLoading" class="sales-container">
   <h2>{{ 'SALES.TITLE' | translate }}</h2>
-  <button mat-raised-button color="primary" (click)="addVenta()">
-    {{ 'SALES.ADD_SALE' | translate }}
+  <button mat-fab color="primary" class="fab-button" (click)="addVenta()" matTooltip="{{ 'SALES.ADD_SALE' | translate }}">
+    <mat-icon>add</mat-icon>
   </button>
   <table mat-table [dataSource]="sales" class="mat-elevation-z8">
 
