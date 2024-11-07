@@ -41,3 +41,4 @@ Front/.angular
 Front/.angular/
 Front/node_modules/
 Front/node_modules
+Front/src/app/shared/firebase.config.ts
