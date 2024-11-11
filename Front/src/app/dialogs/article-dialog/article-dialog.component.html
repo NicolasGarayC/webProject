@@ -8,17 +8,16 @@
 <div mat-dialog-content>
   <form [formGroup]="compraForm" class="full-width-form">
 
-    <!-- Campo de proveedor, solo si no es edición -->
-    <mat-form-field *ngIf="!data.isEdit" class="full-width" appearance="fill">
-      <mat-label>{{ 'ARTICLE.SUPPLIER' | translate }}</mat-label>
-      <mat-select formControlName="proveedorId">
-        <mat-option *ngFor="let proveedor of proveedores$ | async" [value]="proveedor.id">
-          {{ proveedor.nombre }}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
+      <mat-form-field *ngIf="!data.isEdit" class="full-width" appearance="fill">
+        <mat-label>{{ 'ARTICLE.SUPPLIER' | translate }}</mat-label>
+        <mat-select formControlName="proveedorId">
+          <mat-option *ngFor="let proveedor of proveedores$ | async" [value]="proveedor.id">
+            {{ proveedor.nombre }}
+          </mat-option>
+        </mat-select>
+        <mat-error>{{ getErrorMessage('proveedorId') }}</mat-error>
+      </mat-form-field>
 
-    <!-- Radio buttons para seleccionar entre nuevo artículo o artículo existente -->
     <mat-radio-group *ngIf="!data.isEdit" formControlName="nuevoArticulo" class="radio-group">
       <mat-radio-button [value]="true">{{ 'ARTICLE.NEW_ARTICLE' | translate }}</mat-radio-button>
       <mat-radio-button [value]="false">{{ 'ARTICLE.EXISTING_ARTICLE' | translate }}</mat-radio-button>
@@ -31,26 +30,31 @@
         <mat-form-field class="full-width" appearance="fill">
           <mat-label>{{ 'ARTICLE.ARTICLE_NAME' | translate }}</mat-label>
           <input matInput formControlName="nombrearticulo">
+          <mat-error>{{ getErrorMessage('nombrearticulo') }}</mat-error>
         </mat-form-field>
 
         <mat-form-field class="full-width" appearance="fill">
           <mat-label>{{ 'ARTICLE.BRAND' | translate }}</mat-label>
           <input matInput formControlName="marca">
+          <mat-error>{{ getErrorMessage('marca') }}</mat-error>
         </mat-form-field>
 
         <mat-form-field class="full-width" appearance="fill">
           <mat-label>{{ 'ARTICLE.MODEL' | translate }}</mat-label>
           <input matInput formControlName="modelo">
+          <mat-error>{{ getErrorMessage('modelo') }}</mat-error>
         </mat-form-field>
 
         <mat-form-field class="full-width" appearance="fill">
           <mat-label>{{ 'ARTICLE.COLOR' | translate }}</mat-label>
           <input matInput formControlName="color">
+          <mat-error>{{ getErrorMessage('color') }}</mat-error>
         </mat-form-field>
 
         <mat-form-field class="full-width" appearance="fill">
           <mat-label>{{ 'ARTICLE.UNIT_MEASURE' | translate }}</mat-label>
           <input matInput formControlName="unidaddemedida">
+          <mat-error>{{ getErrorMessage('unidaddemedida') }}</mat-error>
         </mat-form-field>
       </div>
 
@@ -63,19 +67,21 @@
               {{ articulo.nombrearticulo }} ({{ articulo.marca }} - {{ articulo.modelo }})
             </mat-option>
           </mat-select>
+          <mat-error>{{ getErrorMessage('articuloExistenteId') }}</mat-error>
         </mat-form-field>
       </div>
     </div>
 
-    <!-- Unidades y Valor Unitario -->
     <mat-form-field class="full-width" appearance="fill">
       <mat-label>{{ 'ARTICLE.UNITS_PURCHASED' | translate }}</mat-label>
-      <input matInput type="number" formControlName="unidadesCompradas">
+      <input matInput type="number" formControlName="unidadesCompradas" min="1">
+      <mat-error>{{ getErrorMessage('unidadesCompradas') }}</mat-error>
     </mat-form-field>
-
+    
     <mat-form-field class="full-width" appearance="fill">
       <mat-label>{{ 'ARTICLE.UNIT_PRICE' | translate }}</mat-label>
-      <input matInput type="number" formControlName="valorUnidad">
+      <input matInput type="number" formControlName="valorUnidad" min="0.01" step="0.01">
+      <mat-error>{{ getErrorMessage('valorUnidad') }}</mat-error>
     </mat-form-field>
 
     <!-- Botón Aceptar -->

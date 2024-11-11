@@ -1,8 +1,9 @@
 export interface VentaArticuloDTO {
-    id: number;
-    fechaVenta: string;
-    valorTotal: number;
-    articulos: any[];
+    id?: number;
+    fechaVenta?: string;
+    valorTotal?: number;
+    articulos?: any[];
+    idUsuario?:number
   }
   
   export interface ReversionVentaDTO {

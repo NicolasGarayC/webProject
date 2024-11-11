@@ -40,21 +40,6 @@
     "AUTH_ERROR": "Authentication error",
     "SNACKBAR_CLOSE": "Close"
   },
-  "SALES": {
-    "TITLE": "Sales Management",
-    "ADD_SALE": "Register New Sale",
-    "ID": "ID",
-    "DATE": "Date",
-    "TOTAL": "Total",
-    "ACTIONS": "Actions",
-    "EDIT": "Edit",
-    "DELETE": "Delete",
-    "SNACKBAR_CLOSE": "Close",
-    "ERROR_LOAD": "Error loading sales.",
-    "ERROR_REVERT": "Error reverting the sale.",
-    "ERROR_REGISTER": "Error registering the sale.",
-    "ERROR_UPDATE": "Error updating the sale."
-  },
   "USERS": {
     "MANAGE_USERS": "Manage Users",
     "EMAIL": "Email",
@@ -125,5 +110,68 @@
     "ROLE": "Role",
     "CANCEL": "Cancel",
     "SAVE": "Save"
+  },
+  "VALIDATORS": {
+    "NAME_REQUIRED": "Name is required",
+    "NAME_MAX_LENGTH": "Name cannot exceed 100 characters",
+    "NAME_PATTERN": "Name contains invalid characters",
+    "BRAND_REQUIRED": "Brand is required",
+    "BRAND_MAX_LENGTH": "Brand cannot exceed 50 characters",
+    "MODEL_REQUIRED": "Field is required",
+    "UNITS_MIN": "The number must be greater than 0",
+    "PRICE_REQUIRED": "Price is required",
+    "PRICE_MIN": "The number must be greater than 0",
+    "SUPPLIER_REQUIRED": "Supplier is required",
+    "COLOR_REQUIRED": "Color is required",
+    "UNIT_REQUIRED": "Units are required"
+  },
+  "SALES": {
+    "TITLE": "Sales Management",
+    "ADD_SALE": "Register New Sale",
+    "ID": "ID",
+    "DATE": "Date",
+    "TOTAL": "Total",
+    "ACTIONS": "Actions",
+    "EDIT": "Edit",
+    "DELETE": "Delete",
+    "DELETEVENTA":"Reverse Sale",
+    "SNACKBAR_CLOSE": "Close",
+    "ERROR_LOAD": "Error loading sales.",
+    "ERROR_REVERT": "Error reverting the sale.",
+    "ERROR_REGISTER": "Error registering the sale.",
+    "ERROR_UPDATE": "Error updating the sale.",
+    "EDIT_SALE": "Edit Sale",
+    "NEW_SALE": "Register New Sale",
+    "ARTICLE": "Article",
+    "QUANTITY_SOLD": "Quantity Sold",
+    "UNIT_PRICE": "Unit Price",
+    "ADD_ARTICLE": "Add Article",
+    "SAVE_CHANGES": "Save Changes",
+    "REGISTER_SALE": "Register Sale",
+    "TABLE": {
+      "ARTICLE_NAME": "Article Name",
+      "BRAND": "Brand",
+      "MODEL": "Model",
+      "UNIT_MEASURE": "Unit of Measure",
+      "QUANTITY_SOLD": "Quantity Sold",
+      "UNIT_PRICE": "Unit Price"
+    },
+    "VALIDATION": {
+      "INVALID_ARTICLE": "Invalid article",
+      "ADD_AT_LEAST_ONE": "Add at least one article to continue",
+      "STOCK_EXCEEDED": "The quantity exceeds available stock"
+    }
+  },
+  "VALIDATIONS": {
+    "REQUIRED_FIELD": "This field is required",
+    "MIN_VALUE": "Minimum allowed value is {{value}}",
+    "MAX_VALUE": "Maximum allowed value is {{value}}",
+    "ONLY_NUMBERS": "Only whole numbers are allowed",
+    "DECIMAL_FORMAT": "Invalid format. Use up to 2 decimal places"
+  },
+  "COMMON": {
+    "CLOSE": "Close",
+    "CANCEL": "Cancel",
+    "ACCEPT": "Accept"
   }
 }

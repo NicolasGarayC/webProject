@@ -8,12 +8,13 @@ import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { LoginService } from './services/login/login.service';
 import { TranslateService, TranslateModule } from '@ngx-translate/core'; // Importa TranslateModule
-
+import { BreadcrumbsComponent } from './src/app/shared/breadcrumb/breadcrumb.component'
 @Component({
   selector: 'app-root',
   standalone: true,
   imports: [
     CommonModule,
+    BreadcrumbsComponent,
     RouterModule,
     MatIconModule,
     MatToolbarModule,

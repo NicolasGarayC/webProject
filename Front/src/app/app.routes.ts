@@ -7,11 +7,42 @@ import { UsuariosComponent } from './components/usuarios/usuarios.component';
 import { AuthGuard } from './services/login/auth.guard';
 
 export const routes: Routes = [
-  { path: 'login', component: LoginComponent },
-  { path: 'reports', component: ReportsComponent, canActivate: [AuthGuard] },
-  { path: 'articles', component: ArticlesComponent, canActivate: [AuthGuard] },
-  { path: 'sales', component: VentasComponent, canActivate: [AuthGuard] },
-  { path: 'usuarios', component: UsuariosComponent, canActivate: [AuthGuard] },
-  { path: '', redirectTo: 'login', pathMatch: 'full' },
-  { path: '**', redirectTo: 'login' }
+  { 
+    path: 'login', 
+    component: LoginComponent, 
+    title: 'Login'
+  },
+  { 
+    path: 'reports', 
+    component: ReportsComponent, 
+    canActivate: [AuthGuard], 
+    title: 'Reports'
+  },
+  { 
+    path: 'articles', 
+    component: ArticlesComponent, 
+    canActivate: [AuthGuard], 
+    title: 'Articulos'
+  },
+  { 
+    path: 'sales', 
+    component: VentasComponent, 
+    canActivate: [AuthGuard], 
+    title: 'Ventas'
+  },
+  { 
+    path: 'usuarios', 
+    component: UsuariosComponent, 
+    canActivate: [AuthGuard], 
+    title: 'Usuarios'
+  },
+  { 
+    path: '', 
+    redirectTo: 'login', 
+    pathMatch: 'full'
+  },
+  { 
+    path: '**', 
+    redirectTo: 'login'
+  }
 ];

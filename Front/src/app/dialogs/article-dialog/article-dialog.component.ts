@@ -36,12 +36,53 @@ import { TranslateModule } from '@ngx-translate/core';
 })
 
 export class ArticleDialogComponent implements OnInit {
-  compraForm: FormGroup;
+  compraForm!: FormGroup;
   proveedores$: Observable<{ id: number, nombre: string }[]>;
   articulosData = new MatTableDataSource<any>([]);
   displayedColumns: string[] = ['nombrearticulo', 'marca', 'modelo', 'unidaddemedida', 'unidadesCompradas', 'valorUnidad'];
   articulos$: Observable<any[]>;
   articulosList: any[] = [];
+  errorMessages: { [key: string]: { [key: string]: string } } = {
+    nombrearticulo: {
+      required: 'VALIDATORS.NAME_REQUIRED',
+      maxlength: 'VALIDATORS.NAME_MAX_LENGTH',
+      pattern: 'VALIDATORS.NAME_PATTERN'
+    },
+    marca: {
+      required: 'VALIDATORS.BRAND_REQUIRED',
+      maxlength: 'VALIDATORS.BRAND_MAX_LENGTH'
+    },
+    modelo: {
+      required: 'VALIDATORS.MODEL_REQUIRED',
+      maxlength: 'VALIDATORS.MODEL_MAX_LENGTH'
+    },
+    color: {
+      required: 'VALIDATORS.COLOR_REQUIRED',
+      maxlength: 'VALIDATORS.COLOR_MAX_LENGTH'
+    },
+    unidaddemedida: {
+      required: 'VALIDATORS.UNIT_REQUIRED',
+      maxlength: 'VALIDATORS.UNIT_MAX_LENGTH'
+    },
+    unidadesCompradas: {
+      required: 'VALIDATORS.UNITS_REQUIRED',
+      min: 'VALIDATORS.UNITS_MIN',
+      max: 'VALIDATORS.UNITS_MAX',
+      pattern: 'VALIDATORS.UNITS_PATTERN'
+    },
+    valorUnidad: {
+      required: 'VALIDATORS.PRICE_REQUIRED',
+      min: 'VALIDATORS.PRICE_MIN',
+      max: 'VALIDATORS.PRICE_MAX',
+      pattern: 'VALIDATORS.PRICE_PATTERN'
+    },
+    proveedorId: {
+      required: 'VALIDATORS.SUPPLIER_REQUIRED'
+    },
+    articuloExistenteId: {
+      required: 'VALIDATORS.EXISTING_ARTICLE_REQUIRED'
+    }
+  };
 
   constructor(
     public dialogRef: MatDialogRef<ArticleDialogComponent>,
@@ -51,35 +92,11 @@ export class ArticleDialogComponent implements OnInit {
     private articuloService: ArticuloService,
     private translate: TranslateService  // Añadir TranslateService aquí
   ) {
-    this.compraForm = this.fb.group({
-      proveedorId: [data.proveedorId ?? null, Validators.required],
-      nuevoArticulo: [true],
-      nombrearticulo: ['', Validators.required],
-      marca: ['', Validators.required],
-      modelo: ['', Validators.required],
-      color: ['', Validators.required],
-      unidaddemedida: ['', Validators.required],
-      articuloExistenteId: [null],
-      unidadesCompradas: [0, [Validators.required, Validators.min(1)]],
-      valorUnidad: [0, [Validators.required, Validators.min(0)]],
-    });
-
-    if (data.isEdit) {
-      this.compraForm.patchValue({
-        nombrearticulo: data.nombrearticulo,
-        marca: data.marca,
-        modelo: data.modelo,
-        color: data.color,
-        unidaddemedida: data.unidaddemedida,
-        unidadesCompradas: data.unidadesdisponibles,
-        valorUnidad: data.valorunitario,
-      });
-    }
-
+    this.initForm();
     this.proveedores$ = this.articuloService.getProveedores();
     this.articulos$ = this.articuloService.getArticulos();
   }
-
+  
   ngOnInit(): void {
     this.articulos$.subscribe(data => {
       this.articulosList = data;
@@ -94,43 +111,78 @@ export class ArticleDialogComponent implements OnInit {
     }
   }
 
-  onNuevoArticuloChange(isNuevoArticulo: boolean): void {
-    if (isNuevoArticulo) {
-      this.compraForm.get('nombrearticulo')?.setValidators(Validators.required);
-      this.compraForm.get('marca')?.setValidators(Validators.required);
-      this.compraForm.get('modelo')?.setValidators(Validators.required);
-      this.compraForm.get('color')?.setValidators(Validators.required);
-      this.compraForm.get('unidaddemedida')?.setValidators(Validators.required);
-      this.compraForm.get('articuloExistenteId')?.clearValidators();
-      this.compraForm.get('articuloExistenteId')?.setValue(null);
-      this.compraForm.get('articuloExistenteId')?.updateValueAndValidity();
-    } else {
-      this.compraForm.get('articuloExistenteId')?.setValidators(Validators.required);
-      this.compraForm.get('nombrearticulo')?.clearValidators();
-      this.compraForm.get('marca')?.clearValidators();
-      this.compraForm.get('modelo')?.clearValidators();
-      this.compraForm.get('color')?.clearValidators();
-      this.compraForm.get('unidaddemedida')?.clearValidators();
+  private initForm(): void {
+    const numberPattern = '^[0-9]*$';
+    const decimalPattern = '^[0-9]+(.[0-9]{1,2})?$';
+    const namePattern = '^[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ ]+$';
 
-      this.compraForm.get('nombrearticulo')?.setValue('');
-      this.compraForm.get('marca')?.setValue('');
-      this.compraForm.get('modelo')?.setValue('');
-      this.compraForm.get('color')?.setValue('');
-      this.compraForm.get('unidaddemedida')?.setValue('');
+    this.compraForm = this.fb.group({
+      proveedorId: [
+        this.data.proveedorId ?? null, 
+        [Validators.required]
+      ],
+      nuevoArticulo: [true],
+      nombrearticulo: [
+        '', 
+        [
+          Validators.required, 
+          Validators.maxLength(100),
+          Validators.pattern(namePattern)
+        ]
+      ],
+      marca: [
+        '', 
+        [
+          Validators.required, 
+          Validators.maxLength(50)
+        ]
+      ],
+      modelo: [
+        '', 
+        [
+          Validators.required, 
+          Validators.maxLength(50)
+        ]
+      ],
+      color: [
+        '', 
+        [
+          Validators.required, 
+          Validators.maxLength(30)
+        ]
+      ],
+      unidaddemedida: [
+        '', 
+        [
+          Validators.required, 
+          Validators.maxLength(20)
+        ]
+      ],
+      articuloExistenteId: [null],
+      unidadesCompradas: [
+        0, 
+        [
+          Validators.required,
+          Validators.min(1),
+          Validators.max(99999),
+          Validators.pattern(numberPattern)
+        ]
+      ],
+      valorUnidad: [
+        0, 
+        [
+          Validators.required,
+          Validators.min(0.01),
+          Validators.max(9999999.99),
+          Validators.pattern(decimalPattern)
+        ]
+      ],
+    });
 
-      this.compraForm.get('nombrearticulo')?.updateValueAndValidity();
-      this.compraForm.get('marca')?.updateValueAndValidity();
-      this.compraForm.get('modelo')?.updateValueAndValidity();
-      this.compraForm.get('color')?.updateValueAndValidity();
-      this.compraForm.get('unidaddemedida')?.updateValueAndValidity();
+    if (this.data.isEdit) {
+      this.patchFormValues();
     }
-
-    this.compraForm.get('unidadesCompradas')?.setValue(0);
-    this.compraForm.get('valorUnidad')?.setValue(0);
-    this.compraForm.get('unidadesCompradas')?.updateValueAndValidity();
-    this.compraForm.get('valorUnidad')?.updateValueAndValidity();
   }
-
   aceptarArticulo(): void {
     if (this.data.isEdit) return;
 
@@ -207,7 +259,28 @@ export class ArticleDialogComponent implements OnInit {
       });
     }
   }
+  
+  private patchFormValues(): void {
+    this.compraForm.patchValue({
+      nombrearticulo: this.data.nombrearticulo,
+      marca: this.data.marca,
+      modelo: this.data.modelo,
+      color: this.data.color,
+      unidaddemedida: this.data.unidaddemedida,
+      unidadesCompradas: this.data.unidadesdisponibles,
+      valorUnidad: this.data.valorunitario,
+    });
+  }
 
+  getErrorMessage(controlName: string): string {
+    const control = this.compraForm.get(controlName);
+    if (control && control.errors && (control.dirty || control.touched)) {
+      const errorKey = Object.keys(control.errors)[0];
+      return this.translate.instant(this.errorMessages[controlName][errorKey]);
+    }
+    return '';
+  }
+  
   guardarCompra(): void {
     const formValue = this.compraForm.value;
     if (this.data.isEdit) {
@@ -240,6 +313,75 @@ export class ArticleDialogComponent implements OnInit {
         });
       }
     }
+  }
+
+  onNuevoArticuloChange(isNuevoArticulo: boolean): void {
+    const numberPattern = '^[0-9]*$';
+    const decimalPattern = '^[0-9]+(.[0-9]{1,2})?$';
+    const namePattern = '^[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ ]+$';
+
+    if (isNuevoArticulo) {
+      this.compraForm.get('nombrearticulo')?.setValidators([
+        Validators.required, 
+        Validators.maxLength(100),
+        Validators.pattern(namePattern)
+      ]);
+      this.compraForm.get('marca')?.setValidators([
+        Validators.required, 
+        Validators.maxLength(50)
+      ]);
+      this.compraForm.get('modelo')?.setValidators([
+        Validators.required, 
+        Validators.maxLength(50)
+      ]);
+      this.compraForm.get('color')?.setValidators([
+        Validators.required, 
+        Validators.maxLength(30)
+      ]);
+      this.compraForm.get('unidaddemedida')?.setValidators([
+        Validators.required, 
+        Validators.maxLength(20)
+      ]);
+      this.compraForm.get('articuloExistenteId')?.clearValidators();
+    } else {
+      this.compraForm.get('articuloExistenteId')?.setValidators([
+        Validators.required
+      ]);
+      this.compraForm.get('nombrearticulo')?.clearValidators();
+      this.compraForm.get('marca')?.clearValidators();
+      this.compraForm.get('modelo')?.clearValidators();
+      this.compraForm.get('color')?.clearValidators();
+      this.compraForm.get('unidaddemedida')?.clearValidators();
+    }
+
+    // Resetear valores y actualizar validaciones
+    ['nombrearticulo', 'marca', 'modelo', 'color', 'unidaddemedida', 'articuloExistenteId'].forEach(field => {
+      const control = this.compraForm.get(field);
+      control?.setValue('');
+      control?.updateValueAndValidity();
+    });
+
+    // Resetear y actualizar campos numéricos
+    this.compraForm.patchValue({
+      unidadesCompradas: 0,
+      valorUnidad: 0
+    });
+
+    this.compraForm.get('unidadesCompradas')?.setValidators([
+      Validators.required,
+      Validators.min(1),
+      Validators.max(99999),
+      Validators.pattern(numberPattern)
+    ]);
+
+    this.compraForm.get('valorUnidad')?.setValidators([
+      Validators.required,
+      Validators.min(0.01),
+      Validators.max(9999999.99),
+      Validators.pattern(decimalPattern)
+    ]);
+
+    this.compraForm.updateValueAndValidity();
   }
 
   onCancel(): void {

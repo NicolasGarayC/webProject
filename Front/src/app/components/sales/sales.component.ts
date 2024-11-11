@@ -105,17 +105,11 @@ export class VentasComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((result: VentaArticuloDTO) => {
       if (result) {
-        this.ventaService.createVenta(result).subscribe({
-          next: () => {
-            this.loadVentas();
-          },
-          error: (error) => {
-            this.snackBar.open(this.translate.instant('SALES.ERROR_REGISTER'), this.translate.instant('SALES.SNACKBAR_CLOSE'), {
-              duration: 3000,
-            });
-            console.error('Error al registrar la venta', error);
-          },
+        this.snackBar.open('Venta registrada.', this.translate.instant('SALES.SNACKBAR_CLOSE'), {
+          duration: 3000,
         });
+
+        this.loadVentas();
       }
     });
   }

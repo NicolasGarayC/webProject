@@ -130,6 +130,8 @@ public class UsuarioController {
             if (authResponse != null) {
                 response.put("message", "Usuario Autenticado");
                 response.put("token", authResponse.getToken());
+                response.put("token", authResponse.getToken());
+
                 return ResponseEntity.ok().body(response);
             } else {
                 response.put("error", "Credenciales inválidas.");

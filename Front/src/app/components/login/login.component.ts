@@ -80,7 +80,6 @@ export class LoginComponent {
               panelClass: ['snackbar-error']
             });
           }
-          console.log('Respuesta del servidor:', response);
         });
     }
   }

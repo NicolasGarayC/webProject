@@ -40,21 +40,6 @@
     "AUTH_ERROR": "Error en la autenticación",
     "SNACKBAR_CLOSE": "Cerrar"
   },
-  "SALES": {
-    "TITLE": "Gestión de Ventas",
-    "ADD_SALE": "Registrar Nueva Venta",
-    "ID": "ID",
-    "DATE": "Fecha",
-    "TOTAL": "Total",
-    "ACTIONS": "Acciones",
-    "EDIT": "Editar",
-    "DELETE": "Eliminar",
-    "SNACKBAR_CLOSE": "Cerrar",
-    "ERROR_LOAD": "Error al cargar las ventas.",
-    "ERROR_REVERT": "Error al revertir la venta.",
-    "ERROR_REGISTER": "Error al registrar la venta.",
-    "ERROR_UPDATE": "Error al actualizar la venta."
-  },
   "USERS": {
     "MANAGE_USERS": "Administrar Usuarios",
     "EMAIL": "Correo",
@@ -125,5 +110,68 @@
     "ROLE": "Rol",
     "CANCEL": "Cancelar",
     "SAVE": "Guardar"
+  },
+  "VALIDATORS": {
+    "NAME_REQUIRED": "El nombre es obligatorio",
+    "NAME_MAX_LENGTH": "El nombre no puede exceder 100 caracteres",
+    "NAME_PATTERN": "El nombre contiene caracteres no válidos",
+    "BRAND_REQUIRED": "La marca es obligatoria",
+    "BRAND_MAX_LENGTH": "La marca no puede exceder 50 caracteres",
+    "MODEL_REQUIRED": "Campo obligatorio",
+    "UNITS_MIN": "El numero debe ser mayor a 0",
+    "PRICE_REQUIRED": "El precio es requerido",
+    "PRICE_MIN": "El numero debe ser mayor a 0",
+    "SUPPLIER_REQUIRED": "El proveedor es requerido",
+    "COLOR_REQUIRED": "El color es requerido",
+    "UNIT_REQUIRED": "Las unidades son requeridas"
+  },
+  "SALES": {
+    "TITLE": "Gestión de Ventas",
+    "ADD_SALE": "Registrar Nueva Venta",
+    "ID": "ID",
+    "DATE": "Fecha",
+    "TOTAL": "Total",
+    "ACTIONS": "Acciones",
+    "EDIT": "Editar",
+    "DELETE": "Eliminar",
+    "DELETEVENTA":"Revertir Venta",
+    "SNACKBAR_CLOSE": "Cerrar",
+    "ERROR_LOAD": "Error al cargar las ventas.",
+    "ERROR_REVERT": "Error al revertir la venta.",
+    "ERROR_REGISTER": "Error al registrar la venta.",
+    "ERROR_UPDATE": "Error al actualizar la venta.",
+    "EDIT_SALE": "Editar Venta",
+    "NEW_SALE": "Registrar Nueva Venta",
+    "ARTICLE": "Artículo",
+    "QUANTITY_SOLD": "Cantidad Vendida",
+    "UNIT_PRICE": "Valor Unitario",
+    "ADD_ARTICLE": "Agregar Artículo",
+    "SAVE_CHANGES": "Guardar Cambios",
+    "REGISTER_SALE": "Registrar Venta",
+    "TABLE": {
+      "ARTICLE_NAME": "Nombre del Artículo",
+      "BRAND": "Marca",
+      "MODEL": "Modelo",
+      "UNIT_MEASURE": "Unidad de Medida",
+      "QUANTITY_SOLD": "Cantidad Vendida",
+      "UNIT_PRICE": "Valor Unitario"
+    },
+    "VALIDATION": {
+      "INVALID_ARTICLE": "Artículo inválido",
+      "ADD_AT_LEAST_ONE": "Agregue al menos un artículo para continuar",
+      "STOCK_EXCEEDED": "La cantidad excede el stock disponible"
+    }
+  },
+  "VALIDATIONS": {
+    "REQUIRED_FIELD": "Campo requerido",
+    "MIN_VALUE": "El valor mínimo permitido es {{value}}",
+    "MAX_VALUE": "El valor máximo permitido es {{value}}",
+    "ONLY_NUMBERS": "Solo se permiten números enteros",
+    "DECIMAL_FORMAT": "Formato inválido. Use hasta 2 decimales"
+  },
+  "COMMON": {
+    "CLOSE": "Cerrar",
+    "CANCEL": "Cancelar",
+    "ACCEPT": "Aceptar"
   }
 }
